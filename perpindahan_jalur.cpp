@@ -3,10 +3,8 @@
 
 using namespace std;
 
-// Batas maksimum data riwayat perpindahan jalur dalam array
-const int MAX_PERPINDAHAN = 100;
+const int MAX_JALUR = 100;
 
-// Struktur data untuk mencatat informasi perpindahan jalur kereta di stasiun transit
 struct PerpindahanJalur {
     string idKereta;
     string stasiunTransit;
@@ -15,82 +13,142 @@ struct PerpindahanJalur {
     string waktu;
 };
 
-// Array global dan counter untuk menyimpan data di memori
-PerpindahanJalur daftarPerpindahan[MAX_PERPINDAHAN];
-int jumlahPerpindahan = 0;
+PerpindahanJalur daftarJalur[MAX_JALUR];
+int jumlahJalur = 0;
 
-// Fungsi internal 1: Mencatat data perpindahan jalur baru (Create)
-void tambahPerpindahan() {
-    if (jumlahPerpindahan >= MAX_PERPINDAHAN) {
+void tambahJalur() {
+    if (jumlahJalur >= MAX_JALUR) {
         cout << "\n[Error] Kapasitas memori array sudah penuh!\n";
         return;
     }
 
-    cout << "\n=== Tambah Data Perpindahan Jalur ===\n";
+    cout << "\n=== TAMBAH JALUR ===\n";
     cout << "ID / Kode Kereta     : ";
-    cin >> daftarPerpindahan[jumlahPerpindahan].idKereta;
+    cin >> daftarJalur[jumlahJalur].idKereta;
     
     cout << "Nama Stasiun Transit : ";
     cin.ignore();
-    getline(cin, daftarPerpindahan[jumlahPerpindahan].stasiunTransit);
+    getline(cin, daftarJalur[jumlahJalur].stasiunTransit);
     
     cout << "Dari Jalur (Asal)    : ";
-    getline(cin, daftarPerpindahan[jumlahPerpindahan].jalurAsal);
+    getline(cin, daftarJalur[jumlahJalur].jalurAsal);
     
     cout << "Ke Jalur (Tujuan)    : ";
-    getline(cin, daftarPerpindahan[jumlahPerpindahan].jalurTujuan);
+    getline(cin, daftarJalur[jumlahJalur].jalurTujuan);
     
     cout << "Waktu Pindah (HH:MM) : ";
-    cin >> daftarPerpindahan[jumlahPerpindahan].waktu;
+    cin >> daftarJalur[jumlahJalur].waktu;
 
-    jumlahPerpindahan++;
-    cout << "\n[Sukses] Data perpindahan jalur berhasil dicatat!\n";
+    jumlahJalur++;
+    cout << "\n[Sukses] Data perpindahan jalur berhasil ditambahkan!\n";
 }
 
-// Fungsi internal 2: Menampilkan seluruh daftar perpindahan jalur (Read)
-void tampilkanPerpindahan() {
-    cout << "\n=== Daftar Perpindahan Jalur MRT/KRL ===\n";
-    if (jumlahPerpindahan == 0) {
-        cout << "Belum ada log atau data perpindahan jalur.\n";
+void tampilkanSemuaJalur() {
+    cout << "\n=== TAMPILKAN SEMUA JALUR ===\n";
+    if (jumlahJalur == 0) {
+        cout << "Belum ada data perpindahan jalur yang tercatat.\n";
         return;
     }
 
-    for (int i = 0; i < jumlahPerpindahan; i++) {
-        cout << i + 1 << ". ID Kereta      : " << daftarPerpindahan[i].idKereta << endl;
-        cout << "   Stasiun Transit: " << daftarPerpindahan[i].stasiunTransit << endl;
-        cout << "   Perpindahan    : Jalur " << daftarPerpindahan[i].jalurAsal << " -> Jalur " << daftarPerpindahan[i].jalurTujuan << endl;
-        cout << "   Waktu          : " << daftarPerpindahan[i].waktu << endl;
+    for (int i = 0; i < jumlahJalur; i++) {
+        cout << "Data Ke-" << i + 1 << endl;
+        cout << "   ID Kereta      : " << daftarJalur[i].idKereta << endl;
+        cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << endl;
+        cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << endl;
+        cout << "   Waktu          : " << daftarJalur[i].waktu << endl;
         cout << "-------------------------------------------\n";
     }
 }
 
-// FUNGSI UTAMA YANG DIPANGGIL OLEH MAIN.CPP
-// Nama fungsi harus persis dengan prototype: void menuPerpindahanJalur();
-void menuPerpindahanJalur() {
-    int pilihanSub;
-    do {
-        cout << "\n=====================================\n";
-        cout << "   MENU PERPINDAHAN JALUR (ARRAY)    \n";
-        cout << "=====================================\n";
-        cout << "1. Tambah Log Perpindahan Jalur\n";
-        cout << "2. Lihat Semua Riwayat Perpindahan\n";
-        cout << "0. Kembali ke Menu Utama\n";
-        cout << "-------------------------------------\n";
-        cout << "Pilihan: "; cin >> pilihanSub;
+void cariJalurPerpindahan() {
+    cout << "\n=== CARI JALUR PERPINDAHAN ===\n";
+    if (jumlahJalur == 0) {
+        cout << "Data kosong. Tidak dapat melakukan pencarian.\n";
+        return;
+    }
 
-        switch (pilihanSub) {
-            case 1:
-                tambahPerpindahan();
-                break;
-            case 2:
-                tampilkanPerpindahan();
-                break;
-            case 0:
-                cout << "\nKembali ke menu utama sistem MRT/KRL...\n";
-                break;
-            default:
-                cout << "\nPilihan tidak valid!\n";
+    string keyword;
+    cout << "Masukkan ID Kereta yang dicari: ";
+    cin >> keyword;
+
+    bool ditemukan = false;
+    for (int i = 0; i < jumlahJalur; i++) {
+        if (daftarJalur[i].idKereta == keyword) {
+            cout << "\n[Data Ditemukan pada indeks array ke-" << i << "]\n";
+            cout << "   ID Kereta      : " << daftarJalur[i].idKereta << endl;
+            cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << endl;
+            cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << endl;
+            cout << "   Waktu          : " << daftarJalur[i].waktu << endl;
+            cout << "-------------------------------------------\n";
+            ditemukan = true;
         }
-    } while (pilihanSub != 0);
+    }
+
+    if (!ditemukan) {
+        cout << "\n[Informasi] Data dengan ID Kereta '" << keyword << "' tidak ditemukan.\n";
+    }
 }
 
+void hapusJalur() {
+    cout << "\n=== HAPUS JALUR ===\n";
+    if (jumlahJalur == 0) {
+        cout << "Data kosong. Tidak ada jalur yang bisa dihapus.\n";
+        return;
+    }
+
+    string keyword;
+    cout << "Masukkan ID Kereta dari jalur yang ingin dihapus: ";
+    cin >> keyword;
+
+    int indeksDitemukan = -1;
+    for (int i = 0; i < jumlahJalur; i++) {
+        if (daftarJalur[i].idKereta == keyword) {
+            indeksDitemukan = i;
+            break;
+        }
+    }
+
+    if (indeksDitemukan == -1) {
+        cout << "\n[Error] Data dengan ID Kereta '" << keyword << "' tidak ditemukan.\n";
+    } else {
+        for (int i = indeksDitemukan; i < jumlahJalur - 1; i++) {
+            daftarJalur[i] = daftarJalur[i + 1];
+        }
+        jumlahJalur--;
+        cout << "\n[Sukses] Data perpindahan jalur kereta '" << keyword << "' berhasil dihapus!\n";
+    }
+}
+
+void menuPerpindahanJalur() {
+    int pilihan;
+    do {
+        cout << "\n=== PERPINDAHAN JALUR ===\n";
+        cout << "1. Tambah Jalur\n";
+        cout << "2. Tampilkan Semua Jalur\n";
+        cout << "3. Cari Jalur Perpindahan\n";
+        cout << "4. Hapus Jalur\n";
+        cout << "0. Kembali ke Menu Utama\n";
+        cout << "-------------------------\n";
+        cout << "Pilihan: "; cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                tambahJalur();
+                break;
+            case 2:
+                tampilkanSemuaJalur();
+                break;
+            case 3:
+                cariJalurPerpindahan();
+                break;
+            case 4:
+                hapusJalur();
+                break;
+            case 0:
+                cout << "\nKembali ke Menu Utama...\n";
+                break;
+            default:
+                cout << "\nPilihan tidak valid! Silakan coba lagi.\n";
+        }
+    } while (pilihan != 0);
+}
