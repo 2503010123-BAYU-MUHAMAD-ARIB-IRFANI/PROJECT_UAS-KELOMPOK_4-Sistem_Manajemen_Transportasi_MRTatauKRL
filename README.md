@@ -114,7 +114,8 @@ g++ main.cpp -o program
 ./program
 ```
 ---
-##📱 Via HP
+
+## 📱 Via HP
 1. Download aplikasi Replit di Play Store / App Store
 2. Login atau daftar akun Replit
 3. Buat project baru pilih bahasa C++
