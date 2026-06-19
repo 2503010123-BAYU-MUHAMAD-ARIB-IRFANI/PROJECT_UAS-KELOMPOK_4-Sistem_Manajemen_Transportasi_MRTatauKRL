@@ -113,6 +113,13 @@ g++ main.cpp -o program
 ```bash
 ./program
 ```
+---
+📱 Via HP
+1. Download aplikasi Replit di Play Store / App Store
+2. Login atau daftar akun Replit
+3. Buat project baru pilih bahasa C++
+4. Copy paste kode dari repository ke Replit
+5. Klik tombol Run untuk menjalankan program
 
 ---
 
@@ -126,6 +133,7 @@ g++ main.cpp -o program
 
 ## 📚 Sumber Belajar
 - Materi Praktikum Algoritma dan Struktur Data
+- YouTube Indonesia sebagai pembelajaran otodidak
 - cplusplus.com
 - geeksforgeeks.org
 - Claude AI - Diskusi dan konsultasi pengembangan sistem
