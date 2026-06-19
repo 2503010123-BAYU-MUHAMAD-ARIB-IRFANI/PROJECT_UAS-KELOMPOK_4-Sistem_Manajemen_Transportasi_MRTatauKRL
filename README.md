@@ -97,6 +97,8 @@ PROJECT_UAS/
 ---
 
 ## 🚀 Cara Menjalankan
+
+### 💻 Via Laptop
 1. Clone repository ini
 ```bash
 git clone https://github.com/2503010123-BAYU-MUHAMAD-ARIB-IRFANI/PROJECT_UAS-KELOMPOK_4-Sistem_Manajemen_Transportasi_MRTatauKRL.git
@@ -113,14 +115,54 @@ g++ main.cpp -o program
 ```bash
 ./program
 ```
+
+### 📱 Via HP
+1. Download aplikasi **Replit** di Play Store / App Store
+2. Login atau daftar akun Replit
+3. Buat project baru pilih bahasa **C++**
+4. Copy paste kode dari repository ke Replit
+5. Klik tombol **Run** untuk menjalankan program
+
 ---
 
-## 📱 Via HP
-1. Download aplikasi Replit di Play Store / App Store
-2. Login atau daftar akun Replit
-3. Buat project baru pilih bahasa C++
-4. Copy paste kode dari repository ke Replit
-5. Klik tombol Run untuk menjalankan program
+## 📤 Cara Upload ke GitHub
+
+### 💻 Via Laptop
+1. Clone repository
+```bash
+git clone https://github.com/2503010123-BAYU-MUHAMAD-ARIB-IRFANI/PROJECT_UAS-KELOMPOK_4-Sistem_Manajemen_Transportasi_MRTatauKRL.git
+```
+2. Masuk ke folder project
+```bash
+cd PROJECT_UAS-KELOMPOK_4-Sistem_Manajemen_Transportasi_MRTatauKRL
+```
+3. Pindah ke branch masing-masing
+```bash
+git checkout Fitur-[nama]
+```
+4. Tambahkan file yang sudah dibuat
+```bash
+git add .
+```
+5. Commit perubahan
+```bash
+git commit -m "Tambah fitur [nama fitur]"
+```
+6. Push ke branch masing-masing
+```bash
+git push origin Fitur-[nama]
+```
+7. Buat Pull Request di GitHub
+
+### 📱 Via HP
+1. Download aplikasi **GitHub** di Play Store / App Store
+2. Login ke akun GitHub masing-masing
+3. Cari repository ini
+4. Pindah ke branch masing-masing
+5. Klik tombol **+** untuk tambah file baru
+6. Isi nama file dan kode program
+7. Klik **Commit changes**
+8. Buat Pull Request ke main
 
 ---
 
@@ -134,7 +176,5 @@ g++ main.cpp -o program
 
 ## 📚 Sumber Belajar
 - Materi Praktikum Algoritma dan Struktur Data
-- YouTube Indonesia sebagai pembelajaran otodidak
 - cplusplus.com
 - geeksforgeeks.org
-- Claude AI - Diskusi dan konsultasi pengembangan sistem
