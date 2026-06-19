@@ -138,7 +138,7 @@ cd PROJECT_UAS-KELOMPOK_4-Sistem_Manajemen_Transportasi_MRTatauKRL
 ```
 3. Pindah ke branch masing-masing
 ```bash
-git checkout Fitur-[nama]
+git checkout brach-[nama]
 ```
 4. Tambahkan file yang sudah dibuat
 ```bash
@@ -150,7 +150,7 @@ git commit -m "Tambah fitur [nama fitur]"
 ```
 6. Push ke branch masing-masing
 ```bash
-git push origin Fitur-[nama]
+git push origin brach-[nama]
 ```
 7. Buat Pull Request di GitHub
 
