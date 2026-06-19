@@ -5,7 +5,6 @@
 #include <string>
 using namespace std;
 
-// Struct Node Linked List
 struct Penumpang {
     int nomor;
     string nama;
@@ -14,11 +13,9 @@ struct Penumpang {
     Penumpang* next;
 };
 
-// Deklarasi variabel global
 extern Penumpang* head;
 extern int nomor;
 
-// Deklarasi fungsi
 void tambahPenumpang();
 void tampilkanPenumpang();
 void cariPenumpang();
