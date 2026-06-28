@@ -69,33 +69,6 @@ Aplikasi berbasis C++ untuk mengelola sistem transportasi MRT/KRL, mencakup mana
 
 ---
 
-## 📁 Struktur File
-```
-PROJECT_UAS/
-├── main.cpp
-├── penumpang.h
-├── penumpang.cpp
-├── stasiun.h
-├── stasiun.cpp
-├── jadwal.h
-├── jadwal.cpp
-├── jalur.h
-├── jalur.cpp
-├── rute.h
-├── rute.cpp
-├── README.md
-├── Struktur_Menu.md
-└── Flowchart/
-    ├── MenuUtama.fprg
-    ├── DataPenumpang-BayuMuhamadAribIrfani.fprg
-    ├── ManajemenStasiun-AdeSodik.fprg
-    ├── ManajemenJadwal-BimoAlvianaSofian.fprg
-    ├── PerpindahanJalur-ZofanAryaguna.fprg
-    └── PencarianRute-FajriPresetyaPermana.fprg
-```
-
----
-
 ## 🚀 Cara Menjalankan
 
 ### 💻 Via Laptop
