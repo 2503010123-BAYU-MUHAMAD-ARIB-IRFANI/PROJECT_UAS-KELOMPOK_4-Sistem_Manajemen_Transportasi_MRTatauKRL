@@ -1,4 +1,14 @@
-#include "penumpang.h"
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Penumpang {
+    int nomor;
+    string nama;
+    string asal;
+    string tujuan;
+    Penumpang* next;
+};
 
 Penumpang* head = NULL;
 int nomor = 1;
