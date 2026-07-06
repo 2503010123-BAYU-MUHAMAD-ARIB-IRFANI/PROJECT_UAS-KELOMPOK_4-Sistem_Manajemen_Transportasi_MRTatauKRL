@@ -29,7 +29,8 @@ int main() {
             case 3: menuPerpindahanJalur(); break;
             case 4: menuPencarianRute(); break;
             case 5: menuDataPenumpang(); break;
-            case 0: cout << "\nTerima kasih! Sampai jumpa!\n" break;
+            case 0: cout << "\nTerima kasih! Sampai jumpa!\n";
+                break;
             default: cout << "\nPilihan tidak valid!\n";
         }
     } while (pilihan != 0);
