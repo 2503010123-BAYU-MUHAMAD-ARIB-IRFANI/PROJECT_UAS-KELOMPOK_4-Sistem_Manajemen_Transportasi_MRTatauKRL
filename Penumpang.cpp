@@ -118,12 +118,18 @@ void menuDataPenumpang() {
         cout << "Pilihan: "; cin >> pilihan;
 
         switch (pilihan) {
-            case 1: tambahPenumpang(); break;
-            case 2: tampilkanPenumpang(); break;
-            case 3: cariPenumpang(); break;
-            case 4: hapusPenumpang(); break;
-            case 0: cout << "Kembali ke menu utama...\n"; break;
-            default: cout << "Pilihan tidak valid!\n";
+            case 1: tambahPenumpang();
+                break;
+            case 2: tampilkanPenumpang();
+                break;
+            case 3: cariPenumpang();
+                break;
+            case 4: hapusPenumpang();
+                break;
+            case 0: cout << "Kembali ke menu utama...\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid!\n";
         }
     } while (pilihan != 0);
 }
