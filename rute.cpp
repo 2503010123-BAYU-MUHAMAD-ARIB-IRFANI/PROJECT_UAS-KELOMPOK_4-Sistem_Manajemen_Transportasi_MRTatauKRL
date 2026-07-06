@@ -138,12 +138,8 @@ void inisialisasiRute() {
 void menuPencarianRute() {
     inisialisasiRute();
     int pilih;
-    do {
-
-    int pilih;
 
     do {
-
         cout << "\n====================================";
         cout << "\n      PENCARIAN RUTE MRT/KRL";
         cout << "\n====================================";
