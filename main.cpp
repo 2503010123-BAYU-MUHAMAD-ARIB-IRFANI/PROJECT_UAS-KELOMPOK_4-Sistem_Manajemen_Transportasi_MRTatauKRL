@@ -24,11 +24,16 @@ int main() {
         cout << "Pilihan: "; cin >> pilihan;
 
         switch (pilihan) {
-            case 1: menuManajemenStasiun(); break;
-            case 2: menuJadwalPerjalanan(); break;
-            case 3: menuPerpindahanJalur(); break;
-            case 4: menuPencarianRute(); break;
-            case 5: menuDataPenumpang(); break;
+            case 1: menuManajemenStasiun();
+                break;
+            case 2: menuJadwalPerjalanan();
+                break;
+            case 3: menuPerpindahanJalur();
+                break;
+            case 4: menuPencarianRute();
+                break;
+            case 5: menuDataPenumpang();
+                break;
             case 0: cout << "\nTerima kasih! Sampai jumpa!\n";
                 break;
             default: cout << "\nPilihan tidak valid!\n";
