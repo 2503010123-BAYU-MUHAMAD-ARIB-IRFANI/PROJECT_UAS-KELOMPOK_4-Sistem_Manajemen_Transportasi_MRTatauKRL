@@ -25,17 +25,17 @@ void tambahJalur() {
     cout << "\n=== TAMBAH JALUR ===\n";
     cout << "ID / Kode Kereta     : ";
     cin >> daftarJalur[jumlahJalur].idKereta;
-    
+
     cout << "Nama Stasiun Transit : ";
     cin.ignore();
     getline(cin, daftarJalur[jumlahJalur].stasiunTransit);
-    
+
     cout << "Dari Jalur (Asal)    : ";
     getline(cin, daftarJalur[jumlahJalur].jalurAsal);
-    
+
     cout << "Ke Jalur (Tujuan)    : ";
     getline(cin, daftarJalur[jumlahJalur].jalurTujuan);
-    
+
     cout << "Waktu Pindah (HH:MM) : ";
     cin >> daftarJalur[jumlahJalur].waktu;
 
@@ -51,11 +51,11 @@ void tampilkanSemuaJalur() {
     }
 
     for (int i = 0; i < jumlahJalur; i++) {
-        cout << "Data Ke-" << i + 1 << endl;
-        cout << "   ID Kereta      : " << daftarJalur[i].idKereta << endl;
-        cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << endl;
-        cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << endl;
-        cout << "   Waktu          : " << daftarJalur[i].waktu << endl;
+        cout << "Data Ke-" << i + 1 << "\n";
+        cout << "   ID Kereta      : " << daftarJalur[i].idKereta << "\n";
+        cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << "\n";
+        cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << "\n";
+        cout << "   Waktu          : " << daftarJalur[i].waktu << "\n";
         cout << "-------------------------------------------\n";
     }
 }
@@ -75,10 +75,10 @@ void cariJalurPerpindahan() {
     for (int i = 0; i < jumlahJalur; i++) {
         if (daftarJalur[i].idKereta == keyword) {
             cout << "\n[Data Ditemukan pada indeks array ke-" << i << "]\n";
-            cout << "   ID Kereta      : " << daftarJalur[i].idKereta << endl;
-            cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << endl;
-            cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << endl;
-            cout << "   Waktu          : " << daftarJalur[i].waktu << endl;
+            cout << "   ID Kereta      : " << daftarJalur[i].idKereta << "\n";
+            cout << "   Stasiun Transit: " << daftarJalur[i].stasiunTransit << "\n";
+            cout << "   Perpindahan    : Jalur " << daftarJalur[i].jalurAsal << " -> Jalur " << daftarJalur[i].jalurTujuan << "\n";
+            cout << "   Waktu          : " << daftarJalur[i].waktu << "\n";
             cout << "-------------------------------------------\n";
             ditemukan = true;
         }
