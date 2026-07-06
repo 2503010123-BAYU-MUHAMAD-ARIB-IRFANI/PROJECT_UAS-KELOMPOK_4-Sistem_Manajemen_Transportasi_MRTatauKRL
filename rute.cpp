@@ -136,6 +136,9 @@ void inisialisasiRute() {
 }
 
 void menuPencarianRute() {
+    inisialisasiRute();
+    int pilih;
+    do {
 
     int pilih;
 
