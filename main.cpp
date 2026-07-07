@@ -1,14 +1,12 @@
 #include <iostream>
 #include <string>
-#include "perpindahan_jalur.h"
-
 using namespace std;
 
-void menuDataPenumpang();    // Bayu Muhamad Arib Irfani
-void menuManajemenStasiun(); // Ade Sodik
-void menuJadwalPerjalanan(); // Bimo Alviana Sofian
-void menuPerpindahanJalur(); // Zofan Aryaguna
-void menuPencarianRute();    // Fajri Prasetya Permana
+#include "Penumpang.cpp"
+#include "stasiun.cpp"
+#include "manajemenJadwalPerjalanan.cpp"
+#include "perpindahan_jalur.cpp"
+#include "rute.cpp"
 
 int main() {
     int pilihan;
