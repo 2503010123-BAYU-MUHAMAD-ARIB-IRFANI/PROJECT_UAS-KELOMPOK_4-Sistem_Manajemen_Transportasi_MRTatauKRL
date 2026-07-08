@@ -12,6 +12,9 @@ struct NodeRute {
 
 NodeRute* top = NULL;
 
+bool cekRuteAda(string asal, string tujuan);
+void tambahRuteOtomatis(string asal, string tujuan);
+
 void tambahRute() {
     string asalR, tujuanR;
     cin.ignore();
