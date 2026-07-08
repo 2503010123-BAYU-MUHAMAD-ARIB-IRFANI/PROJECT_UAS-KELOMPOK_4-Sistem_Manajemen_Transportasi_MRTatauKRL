@@ -21,27 +21,36 @@ void tambahJadwal() {
         cout << "Queue penuh!\n";
         return;
     }
+
     Jadwal baru;
     cin.ignore();
+
     cout << "Asal   : ";
     getline(cin, baru.asal);
     if (!cekStasiunAda(baru.asal)) {
-        cout << "\n✗ Stasiun asal '" << baru.asal << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n✗ Stasiun asal '" << baru.asal << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
+
     cout << "Tujuan : ";
     getline(cin, baru.tujuan);
     if (!cekStasiunAda(baru.tujuan)) {
-        cout << "\n✗ Stasiun tujuan '" << baru.tujuan << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n✗ Stasiun tujuan '" << baru.tujuan << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
+
     cout << "Waktu  : ";
     getline(cin, baru.waktu);
+
     if (isEmpty())
         front = 0;
     rear++;
     queueJadwal[rear] = baru;
+
     tambahRuteOtomatis(baru.asal, baru.tujuan);
+
     cout << "Jadwal berhasil ditambahkan ke queue.\n";
 }
 
