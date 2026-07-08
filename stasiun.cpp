@@ -91,6 +91,17 @@ void hapusStasiun() {
     cout << "Stasiun berhasil dihapus!\n";
 }
 
+bool cekStasiunAda(string nama) {
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        if (temp->namaStasiun == nama) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
 void menuManajemenStasiun() {
     int pilih;
     do {
