@@ -15,6 +15,7 @@ struct PerpindahanJalur {
 
 PerpindahanJalur daftarJalur[MAX_JALUR];
 int jumlahJalur = 0;
+
 void tambahJalur() {
     if (jumlahJalur >= MAX_JALUR) {
         cout << "\n[Error] Kapasitas memori array sudah penuh!\n";
@@ -31,25 +32,28 @@ void tambahJalur() {
     cout << "Nama Stasiun Transit : ";
     getline(cin, transit);
     if (!cekStasiunAda(transit)) {
-        cout << "\n[Error] Stasiun transit '" << transit << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n[Error] Stasiun transit '" << transit << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
     cout << "Dari Jalur (Asal)    : ";
     getline(cin, asalJ);
     if (!cekStasiunAda(asalJ)) {
-        cout << "\n[Error] Stasiun asal '" << asalJ << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n[Error] Stasiun asal '" << asalJ << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
     cout << "Ke Jalur (Tujuan)    : ";
     getline(cin, tujuanJ);
     if (!cekStasiunAda(tujuanJ)) {
-        cout << "\n[Error] Stasiun tujuan '" << tujuanJ << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n[Error] Stasiun tujuan '" << tujuanJ << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
-    cout << "Waktu Pindah (JAM:MENIT) : ";
+    cout << "Waktu Pindah (HH:MM) : ";
     cin >> waktuJ;
 
     daftarJalur[jumlahJalur].idKereta = idK;
@@ -61,7 +65,7 @@ void tambahJalur() {
     jumlahJalur++;
 
     tambahRuteOtomatis(asalJ, tujuanJ);
-    
+
     cout << "\n[Sukses] Data perpindahan jalur berhasil ditambahkan!\n";
 }
 
