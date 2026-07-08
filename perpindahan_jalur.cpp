@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -16,6 +17,19 @@ struct PerpindahanJalur {
 PerpindahanJalur daftarJalur[MAX_JALUR];
 int jumlahJalur = 0;
 
+bool cekStasiunAda(string nama);
+void tambahRuteOtomatis(string asal, string tujuan);
+void saveJalur();
+
+bool cekJalurAda(string asalCek, string tujuanCek) {
+    for (int i = 0; i < jumlahJalur; i++) {
+        if (daftarJalur[i].jalurAsal == asalCek && daftarJalur[i].jalurTujuan == tujuanCek) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void tambahJalur() {
     if (jumlahJalur >= MAX_JALUR) {
         cout << "\n[Error] Kapasitas memori array sudah penuh!\n";
@@ -27,10 +41,18 @@ void tambahJalur() {
 
     cout << "ID / Kode Kereta     : ";
     cin >> idK;
+    if (idK.empty()) {
+        cout << "\n[Error] ID Kereta tidak boleh kosong!\n";
+        return;
+    }
 
     cin.ignore();
     cout << "Nama Stasiun Transit : ";
     getline(cin, transit);
+    if (transit.empty()) {
+        cout << "\n[Error] Stasiun transit tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(transit)) {
         cout << "\n[Error] Stasiun transit '" << transit << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
@@ -39,6 +61,10 @@ void tambahJalur() {
 
     cout << "Dari Jalur (Asal)    : ";
     getline(cin, asalJ);
+    if (asalJ.empty()) {
+        cout << "\n[Error] Stasiun asal tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(asalJ)) {
         cout << "\n[Error] Stasiun asal '" << asalJ << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
@@ -47,14 +73,27 @@ void tambahJalur() {
 
     cout << "Ke Jalur (Tujuan)    : ";
     getline(cin, tujuanJ);
+    if (tujuanJ.empty()) {
+        cout << "\n[Error] Stasiun tujuan tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(tujuanJ)) {
         cout << "\n[Error] Stasiun tujuan '" << tujuanJ << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
+    if (cekJalurAda(asalJ, tujuanJ)) {
+        cout << "\n[Error] Jalur '" << asalJ << " -> " << tujuanJ << "' sudah ada sebelumnya!\n";
+        return;
+    }
+
     cout << "Waktu Pindah (HH:MM) : ";
     cin >> waktuJ;
+    if (waktuJ.empty()) {
+        cout << "\n[Error] Waktu tidak boleh kosong!\n";
+        return;
+    }
 
     daftarJalur[jumlahJalur].idKereta = idK;
     daftarJalur[jumlahJalur].stasiunTransit = transit;
@@ -65,6 +104,7 @@ void tambahJalur() {
     jumlahJalur++;
 
     tambahRuteOtomatis(asalJ, tujuanJ);
+    saveJalur();
 
     cout << "\n[Sukses] Data perpindahan jalur berhasil ditambahkan!\n";
 }
@@ -141,8 +181,46 @@ void hapusJalur() {
             daftarJalur[i] = daftarJalur[i + 1];
         }
         jumlahJalur--;
+        saveJalur();
         cout << "\n[Sukses] Data perpindahan jalur kereta '" << keyword << "' berhasil dihapus!\n";
     }
+}
+
+void saveJalur() {
+    ofstream file("data_jalur.txt");
+    for (int i = 0; i < jumlahJalur; i++) {
+        file << daftarJalur[i].idKereta << "|"
+             << daftarJalur[i].stasiunTransit << "|"
+             << daftarJalur[i].jalurAsal << "|"
+             << daftarJalur[i].jalurTujuan << "|"
+             << daftarJalur[i].waktu << "\n";
+    }
+    file.close();
+}
+
+void loadJalur() {
+    ifstream file("data_jalur.txt");
+    if (!file.is_open()) return;
+
+    string line;
+    while (getline(file, line)) {
+        size_t p1 = line.find("|");
+        size_t p2 = line.find("|", p1 + 1);
+        size_t p3 = line.find("|", p2 + 1);
+        size_t p4 = line.find("|", p3 + 1);
+        if (p1 == string::npos || p2 == string::npos || p3 == string::npos || p4 == string::npos) continue;
+
+        if (jumlahJalur >= MAX_JALUR) break;
+
+        daftarJalur[jumlahJalur].idKereta = line.substr(0, p1);
+        daftarJalur[jumlahJalur].stasiunTransit = line.substr(p1 + 1, p2 - p1 - 1);
+        daftarJalur[jumlahJalur].jalurAsal = line.substr(p2 + 1, p3 - p2 - 1);
+        daftarJalur[jumlahJalur].jalurTujuan = line.substr(p3 + 1, p4 - p3 - 1);
+        daftarJalur[jumlahJalur].waktu = line.substr(p4 + 1);
+
+        jumlahJalur++;
+    }
+    file.close();
 }
 
 void menuPerpindahanJalur() {
