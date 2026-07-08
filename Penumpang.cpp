@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 struct Penumpang {
@@ -13,14 +14,26 @@ struct Penumpang {
 Penumpang* head = NULL;
 int nomor = 1;
 
+bool cekStasiunAda(string nama);
+void tambahRuteOtomatis(string asal, string tujuan);
+void savePenumpang();
+
 void tambahPenumpang() {
     cout << "\n=== TAMBAH PENUMPANG ===\n";
     string namaP, asalP, tujuanP;
 
     cin.ignore();
     cout << "Nama Penumpang : "; getline(cin, namaP);
+    if (namaP.empty()) {
+        cout << "\n✗ Nama penumpang tidak boleh kosong!\n";
+        return;
+    }
 
     cout << "Stasiun Asal   : "; getline(cin, asalP);
+    if (asalP.empty()) {
+        cout << "\n✗ Stasiun asal tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(asalP)) {
         cout << "\n✗ Stasiun asal '" << asalP << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
@@ -28,6 +41,10 @@ void tambahPenumpang() {
     }
 
     cout << "Stasiun Tujuan : "; getline(cin, tujuanP);
+    if (tujuanP.empty()) {
+        cout << "\n✗ Stasiun tujuan tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(tujuanP)) {
         cout << "\n✗ Stasiun tujuan '" << tujuanP << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
@@ -52,6 +69,7 @@ void tambahPenumpang() {
     }
 
     tambahRuteOtomatis(asalP, tujuanP);
+    savePenumpang();
 
     cout << "\n✓ Penumpang berhasil ditambahkan! (Nomor: " << baru->nomor << ")\n";
 }
@@ -110,6 +128,7 @@ void hapusPenumpang() {
         Penumpang* hapus = head;
         head = head->next;
         delete hapus;
+        savePenumpang();
         cout << "✓ Penumpang berhasil dihapus!\n";
         return;
     }
@@ -120,12 +139,56 @@ void hapusPenumpang() {
             Penumpang* hapus = temp->next;
             temp->next = hapus->next;
             delete hapus;
+            savePenumpang();
             cout << "✓ Penumpang berhasil dihapus!\n";
             return;
         }
         temp = temp->next;
     }
     cout << "✗ Nomor tidak ditemukan.\n";
+}
+
+void savePenumpang() {
+    ofstream file("data_penumpang.txt");
+    Penumpang* temp = head;
+    while (temp != NULL) {
+        file << temp->nomor << "|" << temp->nama << "|" << temp->asal << "|" << temp->tujuan << "\n";
+        temp = temp->next;
+    }
+    file.close();
+}
+
+void loadPenumpang() {
+    ifstream file("data_penumpang.txt");
+    if (!file.is_open()) return;
+
+    string line;
+    while (getline(file, line)) {
+        size_t p1 = line.find("|");
+        size_t p2 = line.find("|", p1 + 1);
+        size_t p3 = line.find("|", p2 + 1);
+        if (p1 == string::npos || p2 == string::npos || p3 == string::npos) continue;
+
+        Penumpang* baru = new Penumpang();
+        baru->nomor = stoi(line.substr(0, p1));
+        baru->nama = line.substr(p1 + 1, p2 - p1 - 1);
+        baru->asal = line.substr(p2 + 1, p3 - p2 - 1);
+        baru->tujuan = line.substr(p3 + 1);
+        baru->next = NULL;
+
+        if (head == NULL) {
+            head = baru;
+        } else {
+            Penumpang* temp = head;
+            while (temp->next != NULL) temp = temp->next;
+            temp->next = baru;
+        }
+
+        if (baru->nomor >= nomor) {
+            nomor = baru->nomor + 1;
+        }
+    }
+    file.close();
 }
 
 void menuDataPenumpang() {
