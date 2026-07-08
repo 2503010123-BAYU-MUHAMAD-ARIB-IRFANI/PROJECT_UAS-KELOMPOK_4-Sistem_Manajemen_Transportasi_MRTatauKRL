@@ -12,23 +12,26 @@ struct NodeRute {
 NodeRute* top = NULL;
 
 void tambahRute() {
-
-    NodeRute* baru = new NodeRute;
-
+    string asalR, tujuanR;
     cin.ignore();
 
     cout << "\nMasukkan Stasiun Asal   : ";
-    getline(cin, baru->asal);
+    getline(cin, asalR);
+    if (!cekStasiunAda(asalR)) {
+        cout << "\n✗ Stasiun asal '" << asalR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
     cout << "Masukkan Stasiun Tujuan : ";
-    getline(cin, baru->tujuan);
+    getline(cin, tujuanR);
+    if (!cekStasiunAda(tujuanR)) {
+        cout << "\n✗ Stasiun tujuan '" << tujuanR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
-    baru->next = top;
-    top = baru;
-
+    tambahRuteOtomatis(asalR, tujuanR);
     cout << "\nRute berhasil ditambahkan!\n";
 }
-
 void tampilkanSemuaRute() {
 
     if (top == NULL) {
