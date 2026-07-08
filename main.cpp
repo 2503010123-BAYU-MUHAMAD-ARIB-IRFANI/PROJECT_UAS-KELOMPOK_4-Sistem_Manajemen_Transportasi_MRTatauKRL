@@ -3,11 +3,6 @@
 using namespace std;
 
 #include "stasiun.cpp"
-<<<<<<< HEAD
-#include "manajementJadwalPerjalanan.cpp"
-#include "perpindahan_jalur.cpp"
-=======
->>>>>>> 5833b4b1fe25d242ab360bb8b08cc20f68e6d0ce
 #include "rute.cpp"
 #include "Penumpang.cpp"
 #include "manajementJadwalPerjalanan.cpp"
