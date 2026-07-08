@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
 using namespace std;
@@ -12,8 +13,11 @@ struct NodeRute {
 
 NodeRute* top = NULL;
 
+bool cekStasiunAda(string nama);
+string getWilayahStasiun(string nama);
 bool cekRuteAda(string asal, string tujuan);
 void tambahRuteOtomatis(string asal, string tujuan);
+void saveRute();
 
 void tambahRute() {
     string asalR, tujuanR;
@@ -21,6 +25,10 @@ void tambahRute() {
 
     cout << "\nMasukkan Stasiun Asal   : ";
     getline(cin, asalR);
+    if (asalR.empty()) {
+        cout << "\n✗ Stasiun asal tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(asalR)) {
         cout << "\n✗ Stasiun asal '" << asalR << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
@@ -29,9 +37,18 @@ void tambahRute() {
 
     cout << "Masukkan Stasiun Tujuan : ";
     getline(cin, tujuanR);
+    if (tujuanR.empty()) {
+        cout << "\n✗ Stasiun tujuan tidak boleh kosong!\n";
+        return;
+    }
     if (!cekStasiunAda(tujuanR)) {
         cout << "\n✗ Stasiun tujuan '" << tujuanR << "' belum terdaftar!\n";
         cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
+        return;
+    }
+
+    if (cekRuteAda(asalR, tujuanR)) {
+        cout << "\n✗ Rute '" << asalR << " -> " << tujuanR << "' sudah ada sebelumnya!\n";
         return;
     }
 
@@ -147,10 +164,9 @@ void hapusRute() {
         cout << "\nData rute kosong!\n";
         return;
     }
-
     NodeRute* hapus = top;
-
     top = top->next;
+    saveRute();
 
     cout << "\nRute "
          << hapus->asal
@@ -162,7 +178,6 @@ void hapusRute() {
 }
 
 void inisialisasiRute() {
-
     NodeRute* r1 = new NodeRute;
     r1->asal = "Lebak Bulus";
     r1->tujuan = "Bundaran HI";
@@ -211,7 +226,43 @@ void tambahRuteOtomatis(string asal, string tujuan) {
         baru->wilayah = keteranganWilayah;
         baru->next = top;
         top = baru;
+
+        saveRute();
     }
+}
+
+void saveRute() {
+    ofstream file("data_rute.txt");
+    NodeRute* temp = top;
+    while (temp != NULL) {
+        file << temp->asal << "|" << temp->tujuan << "|" << temp->wilayah << "\n";
+        temp = temp->next;
+    }
+    file.close();
+}
+
+void loadRute() {
+    ifstream file("data_rute.txt");
+    if (!file.is_open()) return;
+
+    string line;
+    while (getline(file, line)) {
+        size_t pos1 = line.find("|");
+        size_t pos2 = line.find("|", pos1 + 1);
+        if (pos1 == string::npos || pos2 == string::npos) continue;
+
+        string asal = line.substr(0, pos1);
+        string tujuan = line.substr(pos1 + 1, pos2 - pos1 - 1);
+        string wilayah = line.substr(pos2 + 1);
+
+        NodeRute* baru = new NodeRute;
+        baru->asal = asal;
+        baru->tujuan = tujuan;
+        baru->wilayah = wilayah;
+        baru->next = top;
+        top = baru;
+    }
+    file.close();
 }
 
 void menuPencarianRute() {
