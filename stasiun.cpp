@@ -7,7 +7,7 @@ struct Node {
     Node* next;
 };
 
-Node* head = NULL;
+Node* headStasiun = NULL;
 
 void tambahStasiun() {
     string nama;
@@ -17,10 +17,10 @@ void tambahStasiun() {
     Node* baru = new Node;
     baru->namaStasiun = nama;
     baru->next = NULL;
-    if (head == NULL) {
-        head = baru;
+    if (headStasiun == NULL) {
+        headStasiun = baru;
     } else {
-        Node* temp = head;
+        Node* temp = headStasiun;
         while (temp->next != NULL) {
             temp = temp->next;
         }
@@ -30,11 +30,11 @@ void tambahStasiun() {
 }
 
 void tampilkanStasiun() {
-    if (head == NULL) {
+    if (headStasiun == NULL) {
         cout << "Belum ada data stasiun!\n";
         return;
     }
-    Node* temp = head;
+    Node* temp = headStasiun;
     int no = 1;
     cout << "\n=== DAFTAR STASIUN ===\n";
     while (temp != NULL) {
@@ -44,7 +44,7 @@ void tampilkanStasiun() {
 }
 
 void cariStasiun() {
-    if (head == NULL) {
+    if (headStasiun == NULL) {
         cout << "Data kosong!\n";
         return;
     }
@@ -52,7 +52,7 @@ void cariStasiun() {
     cin.ignore();
     cout << "Masukkan nama stasiun yang dicari : ";
     getline(cin, cari);
-    Node* temp = head;
+    Node* temp = headStasiun;
     while (temp != NULL) {
         if (temp->namaStasiun == cari) {
             cout << "Stasiun ditemukan!\n";
@@ -64,7 +64,7 @@ void cariStasiun() {
 }
 
 void hapusStasiun() {
-    if (head == NULL) {
+    if (headStasiun == NULL) {
         cout << "Data kosong!\n";
         return;
     }
@@ -72,7 +72,7 @@ void hapusStasiun() {
     cin.ignore();
     cout << "Masukkan nama stasiun yang akan dihapus : ";
     getline(cin, nama);
-    Node* temp = head;
+    Node* temp = headStasiun;
     Node* prev = NULL;
     while (temp != NULL && temp->namaStasiun != nama) {
         prev = temp;
@@ -83,7 +83,7 @@ void hapusStasiun() {
         return;
     }
     if (prev == NULL) {
-        head = head->next;
+        headStasiun = headStasiun->next;
     } else {
         prev->next = temp->next;
     }

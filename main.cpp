@@ -4,7 +4,7 @@ using namespace std;
 
 #include "Penumpang.cpp"
 #include "stasiun.cpp"
-#include "manajemenJadwalPerjalanan.cpp"
+#include "manajementJadwalPerjalanan.cpp"
 #include "perpindahan_jalur.cpp"
 #include "rute.cpp"
 
