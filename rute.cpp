@@ -22,14 +22,16 @@ void tambahRute() {
     cout << "\nMasukkan Stasiun Asal   : ";
     getline(cin, asalR);
     if (!cekStasiunAda(asalR)) {
-        cout << "\n✗ Stasiun asal '" << asalR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n✗ Stasiun asal '" << asalR << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
     cout << "Masukkan Stasiun Tujuan : ";
     getline(cin, tujuanR);
     if (!cekStasiunAda(tujuanR)) {
-        cout << "\n✗ Stasiun tujuan '" << tujuanR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        cout << "\n✗ Stasiun tujuan '" << tujuanR << "' belum terdaftar!\n";
+        cout << "-> Silakan ke Menu Utama > pilih '1. Manajemen Stasiun' > pilih '1. Tambah Stasiun' terlebih dahulu.\n";
         return;
     }
 
