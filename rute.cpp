@@ -6,55 +6,54 @@ using namespace std;
 struct NodeRute {
     string asal;
     string tujuan;
+    string wilayah;
     NodeRute* next;
 };
 
 NodeRute* top = NULL;
 
 void tambahRute() {
-
-    NodeRute* baru = new NodeRute;
-
+    string asalR, tujuanR;
     cin.ignore();
 
     cout << "\nMasukkan Stasiun Asal   : ";
-    getline(cin, baru->asal);
+    getline(cin, asalR);
+    if (!cekStasiunAda(asalR)) {
+        cout << "\n✗ Stasiun asal '" << asalR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
     cout << "Masukkan Stasiun Tujuan : ";
-    getline(cin, baru->tujuan);
+    getline(cin, tujuanR);
+    if (!cekStasiunAda(tujuanR)) {
+        cout << "\n✗ Stasiun tujuan '" << tujuanR << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
-    baru->next = top;
-    top = baru;
-
+    tambahRuteOtomatis(asalR, tujuanR);
     cout << "\nRute berhasil ditambahkan!\n";
 }
 
 void tampilkanSemuaRute() {
-
     if (top == NULL) {
         cout << "\nBelum ada data rute!\n";
         return;
     }
-
     NodeRute* bantu = top;
     int no = 1;
-
     cout << "\n===== DAFTAR RUTE =====\n";
-
     while (bantu != NULL) {
-
         cout << no++ << ". "
              << bantu->asal
              << " -> "
              << bantu->tujuan
-             << endl;
-
+             << " [" << bantu->wilayah << "]"
+             << "\n";
         bantu = bantu->next;
     }
 }
 
 void cariRuteTercepat() {
-
     if (top == NULL) {
         cout << "\nData rute kosong!\n";
         return;
@@ -93,10 +92,53 @@ void cariRuteTercepat() {
     }
 }
 
-void hapusRute() {
-
+void tampilkanRuteDalamWilayah() {
     if (top == NULL) {
+        cout << "\nBelum ada data rute!\n";
+        return;
+    }
+    string wilayahCari;
+    cin.ignore();
+    cout << "\nMasukkan nama wilayah (contoh: Jakarta) : ";
+    getline(cin, wilayahCari);
 
+    NodeRute* bantu = top;
+    bool ada = false;
+    cout << "\n===== RUTE DALAM WILAYAH " << wilayahCari << " =====\n";
+    while (bantu != NULL) {
+        if (bantu->wilayah == ("Dalam Wilayah " + wilayahCari)) {
+            cout << bantu->asal << " -> " << bantu->tujuan << "\n";
+            ada = true;
+        }
+        bantu = bantu->next;
+    }
+    if (!ada) {
+        cout << "Tidak ada rute dalam wilayah ini.\n";
+    }
+}
+
+void tampilkanRuteLuarWilayah() {
+    if (top == NULL) {
+        cout << "\nBelum ada data rute!\n";
+        return;
+    }
+    NodeRute* bantu = top;
+    bool ada = false;
+    cout << "\n===== RUTE LUAR WILAYAH =====\n";
+    while (bantu != NULL) {
+        if (bantu->wilayah.substr(0, 13) == "Luar Wilayah ") {
+            cout << bantu->asal << " -> " << bantu->tujuan << " [" << bantu->wilayah << "]\n";
+            ada = true;
+        }
+        bantu = bantu->next;
+    }
+    if (!ada) {
+        cout << "Tidak ada rute luar wilayah.\n";
+    }
+}
+
+void hapusRute() {
+    if (top == NULL) {
         cout << "\nData rute kosong!\n";
         return;
     }
@@ -135,10 +177,40 @@ void inisialisasiRute() {
     top = r3;
 }
 
-void menuPencarianRute() {
-    inisialisasiRute();
-    int pilih;
+bool cekRuteAda(string asal, string tujuan) {
+    NodeRute* bantu = top;
+    while (bantu != NULL) {
+        if (bantu->asal == asal && bantu->tujuan == tujuan) {
+            return true;
+        }
+        bantu = bantu->next;
+    }
+    return false;
+}
 
+void tambahRuteOtomatis(string asal, string tujuan) {
+    if (!cekRuteAda(asal, tujuan)) {
+        string wilayahAsal = getWilayahStasiun(asal);
+        string wilayahTujuan = getWilayahStasiun(tujuan);
+        string keteranganWilayah;
+
+        if (wilayahAsal == wilayahTujuan) {
+            keteranganWilayah = "Dalam Wilayah " + wilayahAsal;
+        } else {
+            keteranganWilayah = "Luar Wilayah (" + wilayahAsal + " -> " + wilayahTujuan + ")";
+        }
+
+        NodeRute* baru = new NodeRute;
+        baru->asal = asal;
+        baru->tujuan = tujuan;
+        baru->wilayah = keteranganWilayah;
+        baru->next = top;
+        top = baru;
+    }
+}
+
+void menuPencarianRute() {
+    int pilih;
     do {
         cout << "\n====================================";
         cout << "\n      PENCARIAN RUTE MRT/KRL";
@@ -147,35 +219,20 @@ void menuPencarianRute() {
         cout << "\n2. Tampilkan Semua Rute";
         cout << "\n3. Tambah Rute";
         cout << "\n4. Hapus Rute";
+        cout << "\n5. Tampilkan Rute Dalam Wilayah";
+        cout << "\n6. Tampilkan Rute Luar Wilayah";
         cout << "\n0. Kembali";
         cout << "\nPilihan : ";
         cin >> pilih;
-
         switch (pilih) {
-
-        case 1:
-            cariRuteTercepat();
-            break;
-
-        case 2:
-            tampilkanSemuaRute();
-            break;
-
-        case 3:
-            tambahRute();
-            break;
-
-        case 4:
-            hapusRute();
-            break;
-
-        case 0:
-            cout << "\nKembali ke menu utama...\n";
-            break;
-
-        default:
-            cout << "\nPilihan tidak valid!\n";
+        case 1: cariRuteTercepat(); break;
+        case 2: tampilkanSemuaRute(); break;
+        case 3: tambahRute(); break;
+        case 4: hapusRute(); break;
+        case 5: tampilkanRuteDalamWilayah(); break;
+        case 6: tampilkanRuteLuarWilayah(); break;
+        case 0: cout << "\nKembali ke menu utama...\n"; break;
+        default: cout << "\nPilihan tidak valid!\n";
         }
-
     } while (pilih != 0);
 }

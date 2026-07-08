@@ -4,18 +4,23 @@ using namespace std;
 
 struct Node {
     string namaStasiun;
+    string wilayah;
     Node* next;
 };
 
 Node* headStasiun = NULL;
 
 void tambahStasiun() {
-    string nama;
+    string nama, wilayah;
     cin.ignore();
     cout << "Masukkan Nama Stasiun : ";
     getline(cin, nama);
+    cout << "Masukkan Wilayah (contoh: Jakarta/Bandung/Tasikmalaya) : ";
+    getline(cin, wilayah);
+
     Node* baru = new Node;
     baru->namaStasiun = nama;
+    baru->wilayah = wilayah;
     baru->next = NULL;
     if (headStasiun == NULL) {
         headStasiun = baru;
@@ -38,7 +43,7 @@ void tampilkanStasiun() {
     int no = 1;
     cout << "\n=== DAFTAR STASIUN ===\n";
     while (temp != NULL) {
-        cout << no++ << ". " << temp->namaStasiun << "\n";
+        cout << no++ << ". " << temp->namaStasiun << " (Wilayah: " << temp->wilayah << ")\n";
         temp = temp->next;
     }
 }
@@ -89,6 +94,39 @@ void hapusStasiun() {
     }
     delete temp;
     cout << "Stasiun berhasil dihapus!\n";
+}
+
+bool cekStasiunAda(string nama) {
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        if (temp->namaStasiun == nama) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool cekStasiunAda(string nama) {
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        if (temp->namaStasiun == nama) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+string getWilayahStasiun(string nama) {
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        if (temp->namaStasiun == nama) {
+            return temp->wilayah;
+        }
+        temp = temp->next;
+    }
+    return "";
 }
 
 void menuManajemenStasiun() {

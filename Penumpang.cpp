@@ -12,14 +12,27 @@ struct Penumpang {
 
 Penumpang* head = NULL;
 int nomor = 1;
-
 void tambahPenumpang() {
+    cout << "\n=== TAMBAH PENUMPANG ===\n";
+    string namaP, asalP, tujuanP;
+
+    cin.ignore();
+    cout << "Nama Penumpang : "; getline(cin, namaP);
+    cout << "Stasiun Asal   : "; getline(cin, asalP);
+    if (!cekStasiunAda(asalP)) {
+        cout << "\n✗ Stasiun asal '" << asalP << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
+    cout << "Stasiun Tujuan : "; getline(cin, tujuanP);
+    if (!cekStasiunAda(tujuanP)) {
+        cout << "\n✗ Stasiun tujuan '" << tujuanP << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
     Penumpang* baru = new Penumpang();
     baru->nomor = nomor++;
-    cout << "\n=== TAMBAH PENUMPANG ===\n";
-    cout << "Nama Penumpang : "; cin.ignore(); getline(cin, baru->nama);
-    cout << "Stasiun Asal   : "; getline(cin, baru->asal);
-    cout << "Stasiun Tujuan : "; getline(cin, baru->tujuan);
+    baru->nama = namaP;
+    baru->asal = asalP;
+    baru->tujuan = tujuanP;
     baru->next = NULL;
 
     if (head == NULL) {
@@ -31,9 +44,9 @@ void tambahPenumpang() {
         }
         temp->next = baru;
     }
+    tambahRuteOtomatis(asalP, tujuanP);
     cout << "\n✓ Penumpang berhasil ditambahkan! (Nomor: " << baru->nomor << ")\n";
 }
-
 void tampilkanPenumpang() {
     cout << "\n=== DAFTAR PENUMPANG ===\n";
     if (head == NULL) {

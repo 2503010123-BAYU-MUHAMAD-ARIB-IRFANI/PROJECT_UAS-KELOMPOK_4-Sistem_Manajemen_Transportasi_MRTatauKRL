@@ -15,7 +15,6 @@ struct PerpindahanJalur {
 
 PerpindahanJalur daftarJalur[MAX_JALUR];
 int jumlahJalur = 0;
-
 void tambahJalur() {
     if (jumlahJalur >= MAX_JALUR) {
         cout << "\n[Error] Kapasitas memori array sudah penuh!\n";
@@ -23,23 +22,46 @@ void tambahJalur() {
     }
 
     cout << "\n=== TAMBAH JALUR ===\n";
-    cout << "ID / Kode Kereta     : ";
-    cin >> daftarJalur[jumlahJalur].idKereta;
+    string idK, transit, asalJ, tujuanJ, waktuJ;
 
-    cout << "Nama Stasiun Transit : ";
+    cout << "ID / Kode Kereta     : ";
+    cin >> idK;
+
     cin.ignore();
-    getline(cin, daftarJalur[jumlahJalur].stasiunTransit);
+    cout << "Nama Stasiun Transit : ";
+    getline(cin, transit);
+    if (!cekStasiunAda(transit)) {
+        cout << "\n[Error] Stasiun transit '" << transit << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
     cout << "Dari Jalur (Asal)    : ";
-    getline(cin, daftarJalur[jumlahJalur].jalurAsal);
+    getline(cin, asalJ);
+    if (!cekStasiunAda(asalJ)) {
+        cout << "\n[Error] Stasiun asal '" << asalJ << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
     cout << "Ke Jalur (Tujuan)    : ";
-    getline(cin, daftarJalur[jumlahJalur].jalurTujuan);
+    getline(cin, tujuanJ);
+    if (!cekStasiunAda(tujuanJ)) {
+        cout << "\n[Error] Stasiun tujuan '" << tujuanJ << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
 
-    cout << "Waktu Pindah (HH:MM) : ";
-    cin >> daftarJalur[jumlahJalur].waktu;
+    cout << "Waktu Pindah (JAM:MENIT) : ";
+    cin >> waktuJ;
+
+    daftarJalur[jumlahJalur].idKereta = idK;
+    daftarJalur[jumlahJalur].stasiunTransit = transit;
+    daftarJalur[jumlahJalur].jalurAsal = asalJ;
+    daftarJalur[jumlahJalur].jalurTujuan = tujuanJ;
+    daftarJalur[jumlahJalur].waktu = waktuJ;
 
     jumlahJalur++;
+
+    tambahRuteOtomatis(asalJ, tujuanJ);
+    
     cout << "\n[Sukses] Data perpindahan jalur berhasil ditambahkan!\n";
 }
 
