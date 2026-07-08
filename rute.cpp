@@ -135,6 +135,27 @@ void inisialisasiRute() {
     top = r3;
 }
 
+bool cekRuteAda(string asal, string tujuan) {
+    NodeRute* bantu = top;
+    while (bantu != NULL) {
+        if (bantu->asal == asal && bantu->tujuan == tujuan) {
+            return true;
+        }
+        bantu = bantu->next;
+    }
+    return false;
+}
+
+void tambahRuteOtomatis(string asal, string tujuan) {
+    if (!cekRuteAda(asal, tujuan)) {
+        NodeRute* baru = new NodeRute;
+        baru->asal = asal;
+        baru->tujuan = tujuan;
+        baru->next = top;
+        top = baru;
+    }
+}
+
 void menuPencarianRute() {
     inisialisasiRute();
     int pilih;
