@@ -157,7 +157,6 @@ void tambahRuteOtomatis(string asal, string tujuan) {
 }
 
 void menuPencarianRute() {
-    inisialisasiRute();
     int pilih;
 
     do {
