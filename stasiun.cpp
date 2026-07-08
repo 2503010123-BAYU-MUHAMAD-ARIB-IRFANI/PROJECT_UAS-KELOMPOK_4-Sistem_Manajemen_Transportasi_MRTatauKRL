@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -10,13 +11,31 @@ struct Node {
 
 Node* headStasiun = NULL;
 
+bool cekStasiunAda(string nama);
+string getWilayahStasiun(string nama);
+void saveStasiun();
+
 void tambahStasiun() {
     string nama, wilayah;
     cin.ignore();
     cout << "Masukkan Nama Stasiun : ";
     getline(cin, nama);
+
+    if (nama.empty()) {
+        cout << "\n✗ Nama stasiun tidak boleh kosong!\n";
+        return;
+    }
+    if (cekStasiunAda(nama)) {
+        cout << "\n✗ Stasiun '" << nama << "' sudah terdaftar sebelumnya!\n";
+        return;
+    }
+
     cout << "Masukkan Wilayah (contoh: Jakarta/Bandung/Tasikmalaya) : ";
     getline(cin, wilayah);
+    if (wilayah.empty()) {
+        cout << "\n✗ Wilayah tidak boleh kosong!\n";
+        return;
+    }
 
     Node* baru = new Node;
     baru->namaStasiun = nama;
@@ -31,6 +50,7 @@ void tambahStasiun() {
         }
         temp->next = baru;
     }
+    saveStasiun();
     cout << "Stasiun berhasil ditambahkan!\n";
 }
 
@@ -93,6 +113,7 @@ void hapusStasiun() {
         prev->next = temp->next;
     }
     delete temp;
+    saveStasiun();
     cout << "Stasiun berhasil dihapus!\n";
 }
 
@@ -116,6 +137,43 @@ string getWilayahStasiun(string nama) {
         temp = temp->next;
     }
     return "";
+}
+
+void saveStasiun() {
+    ofstream file("data_stasiun.txt");
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        file << temp->namaStasiun << "|" << temp->wilayah << "\n";
+        temp = temp->next;
+    }
+    file.close();
+}
+
+void loadStasiun() {
+    ifstream file("data_stasiun.txt");
+    if (!file.is_open()) return;
+
+    string line;
+    while (getline(file, line)) {
+        size_t pos = line.find("|");
+        if (pos == string::npos) continue;
+        string nama = line.substr(0, pos);
+        string wilayah = line.substr(pos + 1);
+
+        Node* baru = new Node;
+        baru->namaStasiun = nama;
+        baru->wilayah = wilayah;
+        baru->next = NULL;
+
+        if (headStasiun == NULL) {
+            headStasiun = baru;
+        } else {
+            Node* temp = headStasiun;
+            while (temp->next != NULL) temp = temp->next;
+            temp->next = baru;
+        }
+    }
+    file.close();
 }
 
 void menuManajemenStasiun() {
