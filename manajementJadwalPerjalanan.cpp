@@ -10,37 +10,39 @@ struct Jadwal {
 
 const int MAX = 100;
 Jadwal queueJadwal[MAX];
+
 int front = -1, rear = -1;
 
 bool isEmpty() { return front == -1; }
-
 bool isFull() { return rear == MAX - 1; }
 
 void tambahJadwal() {
-  if (isFull()) {
-    cout << "Queue penuh!\n";
-    return;
-  }
-
-  Jadwal baru;
-  cin.ignore();
-
-  cout << "Asal   : ";
-  getline(cin, baru.asal);
-
-  cout << "Tujuan : ";
-  getline(cin, baru.tujuan);
-
-  cout << "Waktu  : ";
-  getline(cin, baru.waktu);
-
-  if (isEmpty())
-    front = 0;
-
-  rear++;
-  queueJadwal[rear] = baru;
-
-  cout << "Jadwal berhasil ditambahkan ke queue.\n";
+    if (isFull()) {
+        cout << "Queue penuh!\n";
+        return;
+    }
+    Jadwal baru;
+    cin.ignore();
+    cout << "Asal   : ";
+    getline(cin, baru.asal);
+    if (!cekStasiunAda(baru.asal)) {
+        cout << "\n✗ Stasiun asal '" << baru.asal << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
+    cout << "Tujuan : ";
+    getline(cin, baru.tujuan);
+    if (!cekStasiunAda(baru.tujuan)) {
+        cout << "\n✗ Stasiun tujuan '" << baru.tujuan << "' belum terdaftar! Tambahkan dulu di Manajemen Stasiun.\n";
+        return;
+    }
+    cout << "Waktu  : ";
+    getline(cin, baru.waktu);
+    if (isEmpty())
+        front = 0;
+    rear++;
+    queueJadwal[rear] = baru;
+    tambahRuteOtomatis(baru.asal, baru.tujuan);
+    cout << "Jadwal berhasil ditambahkan ke queue.\n";
 }
 
 void tampilkanJadwal() {
@@ -50,7 +52,6 @@ void tampilkanJadwal() {
   }
 
   cout << "\n=== DAFTAR JADWAL ===\n";
-
   for (int i = front; i <= rear; i++) {
     cout << "\nJadwal " << i - front + 1 << endl;
     cout << "Asal   : " << queueJadwal[i].asal << endl;
