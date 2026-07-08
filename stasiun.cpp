@@ -107,17 +107,6 @@ bool cekStasiunAda(string nama) {
     return false;
 }
 
-bool cekStasiunAda(string nama) {
-    Node* temp = headStasiun;
-    while (temp != NULL) {
-        if (temp->namaStasiun == nama) {
-            return true;
-        }
-        temp = temp->next;
-    }
-    return false;
-}
-
 string getWilayahStasiun(string nama) {
     Node* temp = headStasiun;
     while (temp != NULL) {
