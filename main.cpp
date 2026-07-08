@@ -10,6 +10,12 @@ using namespace std;
 
 int main() {
     inisialisasiRute();
+    loadStasiun();
+    loadRute();
+    inisialisasiRute();
+    loadPenumpang();
+    loadJadwal();
+    loadJalur();
 
     int pilihan;
     do {
