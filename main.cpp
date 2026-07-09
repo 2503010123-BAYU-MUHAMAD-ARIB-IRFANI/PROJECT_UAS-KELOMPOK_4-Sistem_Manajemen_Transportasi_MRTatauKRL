@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
 #include "stasiun.cpp"
 #include "rute.cpp"
 #include "Penumpang.cpp"
@@ -9,10 +8,8 @@ using namespace std;
 #include "perpindahan_jalur.cpp"
 
 int main() {
-    inisialisasiRute();
     loadStasiun();
     loadRute();
-    inisialisasiRute();
     loadPenumpang();
     loadJadwal();
     loadJalur();
@@ -30,7 +27,6 @@ int main() {
         cout << "0. Keluar\n";
         cout << "--------------------------------------\n";
         cout << "Pilihan: "; cin >> pilihan;
-
         switch (pilihan) {
             case 1: menuManajemenStasiun(); break;
             case 2: menuJadwalPerjalanan(); break;
@@ -41,6 +37,5 @@ int main() {
             default: cout << "\nPilihan tidak valid!\n";
         }
     } while (pilihan != 0);
-
     return 0;
 }
