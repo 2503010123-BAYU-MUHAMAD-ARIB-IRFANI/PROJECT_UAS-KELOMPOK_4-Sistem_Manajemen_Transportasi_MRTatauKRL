@@ -85,14 +85,20 @@ void cariStasiun() {
     cout << "Masukkan nama stasiun yang dicari : ";
     getline(cin, cari);
     Node* temp = headStasiun;
+    bool ditemukan = false;
     while (temp != NULL) {
         if (temp->namaStasiun == cari) {
-            cout << "Stasiun ditemukan!\n";
-            return;
+            cout << "\n=== DETAIL STASIUN ===\n";
+            cout << "Nama Stasiun : " << temp->namaStasiun << "\n";
+            cout << "Wilayah      : " << temp->wilayah << "\n";
+            cout << "------------------------\n";
+            ditemukan = true;
         }
         temp = temp->next;
     }
-    cout << "Stasiun tidak ditemukan!\n";
+    if (!ditemukan) {
+        cout << "Stasiun tidak ditemukan!\n";
+    }
 }
 
 void hapusStasiun() {

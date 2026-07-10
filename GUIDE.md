@@ -1,59 +1,59 @@
-# 📋 PANDUAN PENGGUNAAN
+# PANDUAN PENGGUNAAN
 ## Sistem Manajemen Transportasi MRT/KRL
 
 ---
 
-## 📌 DAFTAR ISI
+## DAFTAR ISI
+
 1. [Tentang Program](#tentang-program)
 2. [Cara Menjalankan](#cara-menjalankan)
-3. [Menu Utama](#menu-utama)
+3. [Struktur Menu](#struktur-menu)
 4. [Panduan Setiap Menu](#panduan-setiap-menu)
 5. [Contoh Penggunaan Lengkap](#contoh-penggunaan-lengkap)
 6. [Tips & Trik](#tips--trik)
+7. [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🎯 Tentang Program
+## Tentang Program
 
-**Sistem Manajemen Transportasi MRT/KRL** adalah aplikasi berbasis C++ yang dirancang untuk mengelola:
-- 📍 **Stasiun** - Data lokasi dan wilayah
-- 🛣️ **Rute** - Jalur perjalanan antar stasiun
-- 📅 **Jadwal** - Waktu keberangkatan dan kedatangan
-- 👥 **Penumpang** - Data pengguna transportasi
-- 🔄 **Perpindahan Jalur** - Informasi transfer antar jalur
+**Sistem Manajemen Transportasi MRT/KRL** adalah aplikasi berbasis C++ untuk mengelola:
+
+- **Stasiun** — Data lokasi dan wilayah
+- **Rute** — Jalur perjalanan antar stasiun
+- **Jadwal** — Waktu keberangkatan dan kedatangan
+- **Penumpang** — Data pengguna transportasi
+- **Perpindahan Jalur** — Informasi transfer antar jalur
 
 **Fitur Utama:**
-- ✅ Validasi otomatis untuk stasiun yang terdaftar
-- ✅ Pembuatan rute otomatis saat penumpang ditambahkan
-- ✅ Pendeteksian wilayah (dalam/luar wilayah)
-- ✅ Pencarian data berbagai kategori
+- Validasi otomatis untuk stasiun yang terdaftar
+- Pembuatan rute otomatis saat penumpang/jadwal ditambahkan
+- Pendeteksian wilayah (dalam/luar wilayah)
+- Cascade delete (hapus stasiun, data terkait ikut terhapus)
+- Semua data tersimpan di file teks (persisten)
 
 ---
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
-### **Windows (Terminal PowerShell)**
+### Windows (PowerShell)
 
-1. **Buka PowerShell** di folder project
-2. **Kompilasi program:**
-   ```powershell
-   g++ *.cpp -o program.exe
-   ```
-3. **Jalankan program:**
-   ```powershell
-   .\program.exe
-   ```
+Buka terminal di folder project, lalu:
 
-### **Dev-C++ / Code Blocks**
-1. Buka project file
-2. Pastikan semua file `.cpp` sudah ditambahkan di project settings
+```powershell
+g++ main.cpp -o program.exe
+.\program.exe
+```
+
+### Dev-C++ / CodeBlocks
+
+1. Buka file `main.cpp` di Dev-C++ / CodeBlocks
+2. Pastikan semua file `.cpp` sudah masuk ke project
 3. Tekan **F9** atau klik **Compile & Run**
 
 ---
 
-## 📊 Menu Utama
-
-Saat program dijalankan, Anda akan melihat menu dengan 5 pilihan:
+## Struktur Menu
 
 ```
 ======================================
@@ -66,68 +66,70 @@ Saat program dijalankan, Anda akan melihat menu dengan 5 pilihan:
 5. Data Penumpang
 0. Keluar
 --------------------------------------
-Pilihan: 
+Pilihan:
 ```
 
 ---
 
-## 📖 Panduan Setiap Menu
+## Panduan Setiap Menu
 
-### **MENU 1: Manajemen Stasiun** 🏢
+### Menu 1: Manajemen Stasiun
 
 Kelola data stasiun di sistem.
 
-**Submenu:**
-- **1. Tambah Stasiun** - Masukkan nama stasiun dan wilayahnya
-- **2. Tampilkan Semua Stasiun** - Lihat daftar lengkap stasiun
-- **3. Cari Stasiun** - Cari stasiun berdasarkan nama
-- **4. Hapus Stasiun** - Hapus stasiun dari database
-- **0. Kembali** - Kembali ke menu utama
+| Submenu | Fungsi |
+|---------|--------|
+| 1 | Tambah Stasiun — Masukkan nama stasiun dan wilayah |
+| 2 | Tampilkan Semua Stasiun — Lihat daftar lengkap stasiun |
+| 3 | Cari Stasiun — Cari stasiun berdasarkan nama (data ditampilkan dulu) |
+| 4 | Hapus Stasiun — Hapus stasiun + cascade delete data terkait (data ditampilkan dulu) |
+| 0 | Kembali ke Menu Utama |
 
 **Contoh Input:**
 ```
 Masukkan Nama Stasiun : Jakarta Pusat
 Masukkan Wilayah (contoh: Jakarta/Bandung/Tasikmalaya) : Jakarta
-→ Stasiun berhasil ditambahkan!
+Stasiun berhasil ditambahkan!
 ```
 
 ---
 
-### **MENU 2: Manajemen Jadwal Perjalanan** 📅
+### Menu 2: Manajemen Jadwal Perjalanan
 
-Atur jadwal keberangkatan dan kedatangan kereta/MRT.
+Atur jadwal keberangkatan dan kedatangan kereta/MRT. Menggunakan struktur **Queue (FIFO)**.
 
-**Submenu:**
-- **1. Tambah Jadwal** - Buat jadwal baru (asal → tujuan → waktu)
-- **2. Tampilkan Semua Jadwal** - Lihat semua jadwal yang ada
-- **3. Cari Jadwal** - Cari berdasarkan stasiun tujuan
-- **4. Hapus Jadwal** - Hapus jadwal (FIFO - yang pertama dihapus dulu)
-- **0. Kembali** - Kembali ke menu utama
+| Submenu | Fungsi |
+|---------|--------|
+| 1 | Tambah Jadwal — Buat jadwal baru (asal, tujuan, waktu) |
+| 2 | Tampilkan Semua Jadwal |
+| 3 | Cari Jadwal — Cari berdasarkan stasiun tujuan (data ditampilkan dulu) |
+| 4 | Hapus Jadwal — Hapus jadwal terdepan / paling lama (data ditampilkan dulu) |
+| 5 | Ubah Status Jadwal — Scheduled / In-Progress / Completed / Delayed |
+| 0 | Kembali ke Menu Utama |
 
-**Catatan:** 
-- Stasiun asal dan tujuan harus sudah terdaftar di Menu 1
-- Sistem menggunakan struktur Queue (antrian)
+**Catatan:** Stasiun asal dan tujuan harus sudah terdaftar di Menu 1.
 
 **Contoh Input:**
 ```
 Asal   : Jakarta Pusat
 Tujuan : Bandung Station
 Waktu  : 08:30
-→ Jadwal berhasil ditambahkan ke queue.
+Jadwal berhasil ditambahkan ke queue. (Status: Scheduled)
 ```
 
 ---
 
-### **MENU 3: Perpindahan Jalur** 🔄
+### Menu 3: Perpindahan Jalur
 
-Kelola informasi transfer/pindah jalur kereta.
+Kelola informasi transfer / pindah jalur kereta. Menggunakan struktur **Array**.
 
-**Submenu:**
-- **1. Tambah Jalur** - Buat data perpindahan jalur baru
-- **2. Tampilkan Semua Jalur** - Lihat semua data perpindahan
-- **3. Cari Jalur Perpindahan** - Cari berdasarkan ID kereta
-- **4. Hapus Jalur** - Hapus data perpindahan
-- **0. Kembali** - Kembali ke menu utama
+| Submenu | Fungsi |
+|---------|--------|
+| 1 | Tambah Jalur — Buat data perpindahan jalur baru |
+| 2 | Tampilkan Semua Jalur |
+| 3 | Cari Jalur Perpindahan — Cari berdasarkan ID kereta (data ditampilkan dulu) |
+| 4 | Hapus Jalur — Hapus data perpindahan (data ditampilkan dulu) |
+| 0 | Kembali ke Menu Utama |
 
 **Contoh Input:**
 ```
@@ -135,28 +137,28 @@ ID / Kode Kereta     : KRL001
 Nama Stasiun Transit : Manggarai
 Dari Jalur (Asal)    : Jakarta Pusat
 Ke Jalur (Tujuan)    : Bogor
-Waktu Pindah (JAM:MENIT) : 10:15
-→ [Sukses] Data perpindahan jalur berhasil ditambahkan!
+Waktu Pindah (HH:MM) : 10:15
+[Sukses] Data perpindahan jalur berhasil ditambahkan!
 ```
 
 ---
 
-### **MENU 4: Pencarian Rute** 🛣️
+### Menu 4: Pencarian Rute
 
-Lihat dan kelola rute perjalanan yang tersedia.
+Lihat dan kelola rute perjalanan. Menggunakan struktur **Stack (LIFO)**.
 
-**Submenu:**
-- **1. Cari Rute Tercepat** - Cari rute dari stasiun tertentu
-- **2. Tampilkan Semua Rute** - Lihat daftar semua rute dengan label wilayah
-- **3. Tambah Rute** - Buat rute manual
-- **4. Hapus Rute** - Hapus rute (LIFO - yang terakhir dihapus dulu)
-- **5. Tampilkan Rute Dalam Wilayah** - Filter rute yang masih dalam satu wilayah
-- **6. Tampilkan Rute Luar Wilayah** - Filter rute antar wilayah
-- **0. Kembali** - Kembali ke menu utama
+| Submenu | Fungsi |
+|---------|--------|
+| 1 | Cari Rute Tercepat — Cari rute dari stasiun tertentu (data ditampilkan dulu) |
+| 2 | Tampilkan Semua Rute — Lihat daftar semua rute dengan label wilayah |
+| 3 | Tambah Rute — Buat rute manual |
+| 4 | Hapus Rute — Hapus rute terakhir / paling baru (data ditampilkan dulu) |
+| 5 | Tampilkan Rute Dalam Wilayah — Filter rute satu wilayah |
+| 6 | Tampilkan Rute Luar Wilayah — Filter rute antar wilayah |
+| 0 | Kembali ke Menu Utama |
 
 **Rute Otomatis:**
-- Saat Anda menambah penumpang atau jadwal, rute akan dibuat otomatis
-- Sistem mendeteksi apakah rute itu "Dalam Wilayah" atau "Luar Wilayah"
+Saat menambah penumpang, jadwal, atau perpindahan jalur, rute akan dibuat otomatis. Sistem mendeteksi apakah rute tersebut **"Dalam Wilayah"** atau **"Luar Wilayah"**.
 
 **Contoh Output:**
 ```
@@ -168,16 +170,17 @@ Lihat dan kelola rute perjalanan yang tersedia.
 
 ---
 
-### **MENU 5: Data Penumpang** 👥
+### Menu 5: Data Penumpang
 
-Kelola data penumpang dan perjalanan mereka.
+Kelola data penumpang. Menggunakan struktur **Linked List**.
 
-**Submenu:**
-- **1. Tambah Penumpang** - Daftarkan penumpang baru (auto-numbered)
-- **2. Tampilkan Semua Penumpang** - Lihat daftar semua penumpang
-- **3. Cari Penumpang** - Cari penumpang berdasarkan nama
-- **4. Hapus Penumpang** - Hapus data penumpang
-- **0. Kembali** - Kembali ke menu utama
+| Submenu | Fungsi |
+|---------|--------|
+| 1 | Tambah Penumpang — Daftarkan penumpang baru (nomor urut otomatis) |
+| 2 | Tampilkan Semua Penumpang |
+| 3 | Cari Penumpang — Cari berdasarkan nama (data ditampilkan dulu) |
+| 4 | Hapus Penumpang — Hapus data penumpang (data ditampilkan dulu) |
+| 0 | Kembali ke Menu Utama |
 
 **Catatan:**
 - Setiap penumpang mendapat nomor urut otomatis
@@ -186,190 +189,149 @@ Kelola data penumpang dan perjalanan mereka.
 
 **Contoh Input:**
 ```
-=== TAMBAH PENUMPANG ===
 Nama Penumpang : Budi Santoso
 Stasiun Asal   : Jakarta Pusat
 Stasiun Tujuan : Bandung Station
-→ ✓ Penumpang berhasil ditambahkan! (Nomor: 1)
+Penumpang berhasil ditambahkan! (Nomor: 1)
 ```
 
 **Contoh Output (Tampilkan):**
 ```
 === DAFTAR PENUMPANG ===
---------------------------------------------
-No	Nama		Asal		Tujuan
---------------------------------------------
-1	Budi Santoso	Jakarta Pusat	Bandung Station
-2	Siti Nurhaliza	Bogor		Jakarta Pusat
---------------------------------------------
+------------------------------------------------------------
+No  Nama          Asal            Tujuan
+------------------------------------------------------------
+1   Budi Santoso  Jakarta Pusat   Bandung Station
+2   Siti Nurhaliza Bogor         Jakarta Pusat
+------------------------------------------------------------
 ```
 
 ---
 
-## 💡 Contoh Penggunaan Lengkap
+## Contoh Penggunaan Lengkap
 
-### **Skenario: Membuat Data Lengkap untuk Perjalanan**
+### Skenario: Membuat Data Lengkap Perjalanan
 
-#### **Step 1: Tambah Stasiun (Menu 1)**
+#### Step 1: Tambah Stasiun (Menu 1)
+
 ```
-Input: 1
-→ Menu Manajemen Stasiun
+Pilih: 1  ->  Masuk ke Manajemen Stasiun
+Pilih: 1  ->  Tambah Stasiun
 
-Input: 1
-→ Pilih "Tambah Stasiun"
+Masukkan Nama Stasiun : Jakarta Pusat
+Masukkan Wilayah      : Jakarta
+-> Stasiun berhasil ditambahkan!
 
-Input: Jakarta Pusat
-Input: Jakarta
-→ Stasiun berhasil ditambahkan!
+Pilih: 1  ->  Tambah lagi
+Masukkan Nama Stasiun : Bandung Station
+Masukkan Wilayah      : Bandung
+-> Stasiun berhasil ditambahkan!
 
-Input: 1 (Tambah lagi)
-Input: Bandung Station
-Input: Bandung
-→ Stasiun berhasil ditambahkan!
+Pilih: 1  ->  Tambah lagi
+Masukkan Nama Stasiun : Bogor
+Masukkan Wilayah      : Bogor
+-> Stasiun berhasil ditambahkan!
 
-Input: 1 (Tambah lagi)
-Input: Bogor
-Input: Bogor
-→ Stasiun berhasil ditambahkan!
-
-Input: 0
-→ Kembali ke menu utama
+Pilih: 0  ->  Kembali ke Menu Utama
 ```
 
-#### **Step 2: Tambah Penumpang (Menu 5)**
+#### Step 2: Tambah Penumpang (Menu 5)
+
 ```
-Input: 5
-→ Menu Data Penumpang
+Pilih: 5  ->  Masuk ke Data Penumpang
+Pilih: 1  ->  Tambah Penumpang
 
-Input: 1
-→ Pilih "Tambah Penumpang"
+Nama Penumpang   : Budi Santoso
+Stasiun Asal     : Jakarta Pusat
+Stasiun Tujuan   : Bandung Station
+-> Penumpang berhasil ditambahkan! (Nomor: 1)
 
-Input: Budi Santoso
-Input: Jakarta Pusat
-Input: Bandung Station
-→ ✓ Penumpang berhasil ditambahkan! (Nomor: 1)
-
-Input: 2
-→ Lihat semua penumpang
-
+Pilih: 2  ->  Lihat semua penumpang
 Output:
-No	Nama		Asal		Tujuan
-1	Budi Santoso	Jakarta Pusat	Bandung Station
+No  Nama          Asal            Tujuan
+1   Budi Santoso  Jakarta Pusat   Bandung Station
 
-Input: 0
-→ Kembali ke menu utama
+Pilih: 0  ->  Kembali ke Menu Utama
 ```
 
-#### **Step 3: Lihat Rute (Menu 4)**
-```
-Input: 4
-→ Menu Pencarian Rute
+#### Step 3: Lihat Rute (Menu 4)
 
-Input: 2
-→ Tampilkan Semua Rute
+```
+Pilih: 4  ->  Masuk ke Pencarian Rute
+Pilih: 2  ->  Tampilkan Semua Rute
 
 Output:
 ===== DAFTAR RUTE =====
 1. Jakarta Pusat -> Bandung Station [Luar Wilayah (Jakarta -> Bandung)]
-2. Lebak Bulus -> Bundaran HI [Dalam Wilayah Jakarta]
-...dst
 
-Input: 6
-→ Tampilkan Rute Luar Wilayah
+Pilih: 5  ->  Tampilkan Rute Dalam Wilayah
+Pilih: 6  ->  Tampilkan Rute Luar Wilayah
 
-Output:
-===== RUTE LUAR WILAYAH =====
-Jakarta Pusat -> Bandung Station [Luar Wilayah (Jakarta -> Bandung)]
-...
-
-Input: 0
-→ Kembali ke menu utama
+Pilih: 0  ->  Kembali ke Menu Utama
 ```
 
-#### **Step 4: Keluar**
-```
-Input: 0
-→ Keluar dari program
+#### Step 4: Keluar
 
-Output:
-Terima kasih! Sampai jumpa!
+```
+Pilih: 0
+Output: Terima kasih! Sampai jumpa!
 ```
 
 ---
 
-## 🎓 Tips & Trik
+## Tips & Trik
 
-### **✅ Yang Harus Dilakukan:**
+### Yang Harus Dilakukan
 
-1. **Tambah Stasiun Dulu**
-   - Sebelum membuat jadwal atau penumpang, pastikan stasiun sudah terdaftar di Menu 1
+| No | Tips | Keterangan |
+|----|------|------------|
+| 1 | **Tambah Stasiun Dulu** | Sebelum membuat jadwal/penumpang, pastikan stasiun sudah terdaftar |
+| 2 | **Gunakan Nama Konsisten** | Ketik nama stasiun persis sama (case-sensitive) |
+| 3 | **Cek Data Sebelum Hapus** | Sistem otomatis menampilkan data sebelum cari/hapus |
+| 4 | **Perhatikan Wilayah** | Pilih wilayah yang sesuai saat menambah stasiun |
 
-2. **Gunakan Nama Konsisten**
-   - Saat menambah jadwal/penumpang, ketik nama stasiun persis sama dengan yang terdaftar
+### Yang Jangan Dilakukan
 
-3. **Periksa Data Sebelum Menghapus**
-   - Gunakan submenu "Tampilkan" untuk cek data sebelum menghapus
+| No | Larangan | Alasan |
+|----|----------|--------|
+| 1 | Hapus stasiun yang masih dipakai | Data terkait akan ikut terhapus (cascade delete) |
+| 2 | Ubah nama stasiun | Hapus dan buat ulang dengan nama baru |
+| 3 | Ketik nama stasiun berbeda | "Jakarta" != "jakarta" (huruf besar/kecil berbeda) |
 
-4. **Perhatikan Wilayah**
-   - Saat membuat stasiun, pilih wilayah yang sesuai (Jakarta, Bandung, Bogor, dll)
+### Fitur Otomatis
 
----
-
-### **❌ Yang Jangan Dilakukan:**
-
-1. **Jangan Hapus Stasiun yang Masih Dipakai**
-   - Bisa membuat rute menjadi tidak valid
-
-2. **Jangan Ubah Nama Stasiun**
-   - Hapus dan buat ulang dengan nama baru
-
-3. **Jangan Ketik Nama Stasiun Berbeda**
-   - "Jakarta" ≠ "jakarta" (huruf besar/kecil berbeda)
+- **Nomor Penumpang Otomatis** — Setiap penumpang baru mendapat nomor urut
+- **Rute Otomatis** — Saat tambah penumpang/jadwal/jalur, rute dibuat otomatis
+- **Deteksi Wilayah** — Sistem otomatis menentukan rute dalam/luar wilayah
+- **Cascade Delete** — Hapus stasiun, semua data terkait ikut terhapus
 
 ---
 
-### **💡 Fitur Otomatis yang Perlu Diketahui:**
+## Troubleshooting
 
-- **Nomor Penumpang Otomatis**: Setiap penumpang baru mendapat nomor urut
-- **Rute Otomatis**: Saat tambah penumpang/jadwal, rute dibuat otomatis
-- **Deteksi Wilayah**: Sistem otomatis tahu apakah rute itu dalam/luar wilayah
-
----
-
-## 📞 Troubleshooting
-
-### **Error: Stasiun belum terdaftar**
-**Penyebab:** Stasiun yang dimasukkan belum ada di database  
-**Solusi:** Tambahkan stasiun dulu di Menu 1
-
-### **Error: g++ tidak ditemukan**
-**Penyebab:** Compiler C++ belum terinstall  
-**Solusi:** Install MinGW atau DevC++
-
-### **Program crash saat dijalankan**
-**Penyebab:** Mungkin ada error di kode  
-**Solusi:** Cek di Dev-C++ atau compile ulang dengan `g++ *.cpp -o program.exe`
+| Masalah | Penyebab | Solusi |
+|---------|----------|--------|
+| "Stasiun belum terdaftar" | Stasiun belum ada di database | Tambahkan stasiun di Menu 1 terlebih dahulu |
+| "g++ tidak ditemukan" | Compiler C++ belum terinstall | Install MinGW atau Dev-C++ |
+| Program tidak berjalan | Mungkin ada error kompilasi | Compile ulang: `g++ main.cpp -o program.exe` |
+| Data tidak muncul setelah restart | File .txt terhapus/rusak | Jangan hapus file .txt, atau buat ulang data dari menu |
 
 ---
 
-## 📝 Struktur Data
+## Struktur Data
 
-Program menggunakan beberapa struktur data:
+| Modul | Struktur Data | Sifat |
+|-------|---------------|-------|
+| Stasiun | Linked List | Dinamis, tanpa batas kapasitas |
+| Penumpang | Linked List | Dinamis, tanpa batas kapasitas |
+| Jadwal | Queue (Array, max 100) | FIFO — pertama masuk, pertama keluar |
+| Rute | Stack (Linked List) | LIFO — terakhir masuk, pertama keluar |
+| Perpindahan Jalur | Array (max 100) | Akses acak cepat |
 
-```
-Stasiun      → Linked List
-Rute         → Linked List Stack
-Penumpang    → Linked List
-Jadwal       → Array Queue
-Perpindahan  → Array
-```
+### Relasi Data
+
+Setiap **Penumpang** dan **Rute** menyimpan **pointer langsung** ke node **Stasiun** (bukan string). Jika stasiun dihapus, cascade delete otomatis membersihkan semua data yang merujuk ke stasiun tersebut.
 
 ---
 
-## 🎉 Selamat Menggunakan!
-
-Semoga program ini memudahkan Anda dalam mengelola sistem transportasi MRT/KRL.  
-Jika ada pertanyaan atau kendala, silakan hubungi developer.
-
-**Dibuat oleh:** Kelompok 4  
-**Tahun:** 2026
+*Dibuat oleh Kelompok 4 — Praktikum Algoritma dan Struktur Data — 2026*
