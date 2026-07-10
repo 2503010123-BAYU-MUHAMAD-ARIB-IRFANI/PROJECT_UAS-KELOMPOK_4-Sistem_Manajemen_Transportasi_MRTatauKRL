@@ -6,8 +6,8 @@ using namespace std;
 struct Penumpang {
     int nomor;
     string nama;
-    string asal;
-    string tujuan;
+    Node* asalStasiun;
+    Node* tujuanStasiun;
     Penumpang* next;
 };
 
@@ -15,7 +15,8 @@ Penumpang* head = NULL;
 int nomor = 1;
 
 bool cekStasiunAda(string nama);
-void tambahRuteOtomatis(string asal, string tujuan);
+Node* getNodeStasiun(string nama);
+void tambahRuteOtomatis(Node* asal, Node* tujuan);
 void savePenumpang();
 
 void tambahPenumpang() {
@@ -51,11 +52,18 @@ void tambahPenumpang() {
         return;
     }
 
+    Node* asalNode = getNodeStasiun(asalP);
+    Node* tujuanNode = getNodeStasiun(tujuanP);
+    if (!asalNode || !tujuanNode) {
+        cout << "\n✗ Stasiun tidak valid!\n";
+        return;
+    }
+
     Penumpang* baru = new Penumpang();
     baru->nomor = nomor++;
     baru->nama = namaP;
-    baru->asal = asalP;
-    baru->tujuan = tujuanP;
+    baru->asalStasiun = asalNode;
+    baru->tujuanStasiun = tujuanNode;
     baru->next = NULL;
 
     if (head == NULL) {
@@ -68,7 +76,7 @@ void tambahPenumpang() {
         temp->next = baru;
     }
 
-    tambahRuteOtomatis(asalP, tujuanP);
+    tambahRuteOtomatis(asalNode, tujuanNode);
     savePenumpang();
 
     cout << "\n✓ Penumpang berhasil ditambahkan! (Nomor: " << baru->nomor << ")\n";
@@ -80,19 +88,22 @@ void tampilkanPenumpang() {
         cout << "Belum ada data penumpang.\n";
         return;
     }
-    cout << "--------------------------------------------\n";
+    cout << "------------------------------------------------------------\n";
     cout << "No\tNama\t\tAsal\t\tTujuan\n";
-    cout << "--------------------------------------------\n";
+    cout << "------------------------------------------------------------\n";
     Penumpang* temp = head;
     while (temp != NULL) {
         cout << temp->nomor << "\t" << temp->nama << "\t\t"
-             << temp->asal << "\t\t" << temp->tujuan << "\n";
+             << temp->asalStasiun->namaStasiun << "\t\t"
+             << temp->tujuanStasiun->namaStasiun << "\n";
         temp = temp->next;
     }
-    cout << "--------------------------------------------\n";
+    cout << "------------------------------------------------------------\n";
 }
 
 void cariPenumpang() {
+    tampilkanPenumpang();
+    if (head == NULL) return;
     cout << "\n=== CARI PENUMPANG ===\n";
     string keyword;
     cout << "Masukkan nama penumpang: "; cin.ignore(); getline(cin, keyword);
@@ -104,8 +115,8 @@ void cariPenumpang() {
             cout << "\n✓ Penumpang ditemukan!\n";
             cout << "Nomor  : " << temp->nomor << "\n";
             cout << "Nama   : " << temp->nama << "\n";
-            cout << "Asal   : " << temp->asal << "\n";
-            cout << "Tujuan : " << temp->tujuan << "\n";
+            cout << "Asal   : " << temp->asalStasiun->namaStasiun << "\n";
+            cout << "Tujuan : " << temp->tujuanStasiun->namaStasiun << "\n";
             ketemu = true;
         }
         temp = temp->next;
@@ -116,11 +127,9 @@ void cariPenumpang() {
 }
 
 void hapusPenumpang() {
+    tampilkanPenumpang();
+    if (head == NULL) return;
     cout << "\n=== HAPUS PENUMPANG ===\n";
-    if (head == NULL) {
-        cout << "Belum ada data penumpang.\n";
-        return;
-    }
     int nomorHapus;
     cout << "Masukkan nomor penumpang yang dihapus: "; cin >> nomorHapus;
 
@@ -152,7 +161,9 @@ void savePenumpang() {
     ofstream file("data_penumpang.txt");
     Penumpang* temp = head;
     while (temp != NULL) {
-        file << temp->nomor << "|" << temp->nama << "|" << temp->asal << "|" << temp->tujuan << "\n";
+        file << temp->nomor << "|" << temp->nama << "|"
+             << temp->asalStasiun->namaStasiun << "|"
+             << temp->tujuanStasiun->namaStasiun << "\n";
         temp = temp->next;
     }
     file.close();
@@ -172,9 +183,14 @@ void loadPenumpang() {
         Penumpang* baru = new Penumpang();
         baru->nomor = stoi(line.substr(0, p1));
         baru->nama = line.substr(p1 + 1, p2 - p1 - 1);
-        baru->asal = line.substr(p2 + 1, p3 - p2 - 1);
-        baru->tujuan = line.substr(p3 + 1);
+        baru->asalStasiun = getNodeStasiun(line.substr(p2 + 1, p3 - p2 - 1));
+        baru->tujuanStasiun = getNodeStasiun(line.substr(p3 + 1));
         baru->next = NULL;
+
+        if (!baru->asalStasiun || !baru->tujuanStasiun) {
+            delete baru;
+            continue;
+        }
 
         if (head == NULL) {
             head = baru;
@@ -189,6 +205,29 @@ void loadPenumpang() {
         }
     }
     file.close();
+}
+
+void hapusPenumpangByStasiun(Node* stasiun) {
+    if (head == NULL) return;
+
+    while (head != NULL && (head->asalStasiun == stasiun || head->tujuanStasiun == stasiun)) {
+        Penumpang* hapus = head;
+        head = head->next;
+        delete hapus;
+    }
+    if (head == NULL) { savePenumpang(); return; }
+
+    Penumpang* current = head;
+    while (current->next != NULL) {
+        if (current->next->asalStasiun == stasiun || current->next->tujuanStasiun == stasiun) {
+            Penumpang* hapus = current->next;
+            current->next = hapus->next;
+            delete hapus;
+        } else {
+            current = current->next;
+        }
+    }
+    savePenumpang();
 }
 
 void menuDataPenumpang() {

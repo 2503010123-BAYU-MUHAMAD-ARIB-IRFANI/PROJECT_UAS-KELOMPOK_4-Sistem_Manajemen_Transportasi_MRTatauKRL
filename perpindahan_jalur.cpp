@@ -18,7 +18,8 @@ PerpindahanJalur daftarJalur[MAX_JALUR];
 int jumlahJalur = 0;
 
 bool cekStasiunAda(string nama);
-void tambahRuteOtomatis(string asal, string tujuan);
+Node* getNodeStasiun(string nama);
+void tambahRuteOtomatis(Node* asal, Node* tujuan);
 void saveJalur();
 
 bool cekJalurAda(string asalCek, string tujuanCek) {
@@ -103,7 +104,11 @@ void tambahJalur() {
 
     jumlahJalur++;
 
-    tambahRuteOtomatis(asalJ, tujuanJ);
+    {
+        Node* asalNode = getNodeStasiun(asalJ);
+        Node* tujuanNode = getNodeStasiun(tujuanJ);
+        if (asalNode && tujuanNode) tambahRuteOtomatis(asalNode, tujuanNode);
+    }
     saveJalur();
 
     cout << "\n[Sukses] Data perpindahan jalur berhasil ditambahkan!\n";
@@ -127,11 +132,9 @@ void tampilkanSemuaJalur() {
 }
 
 void cariJalurPerpindahan() {
+    tampilkanSemuaJalur();
+    if (jumlahJalur == 0) return;
     cout << "\n=== CARI JALUR PERPINDAHAN ===\n";
-    if (jumlahJalur == 0) {
-        cout << "Data kosong. Tidak dapat melakukan pencarian.\n";
-        return;
-    }
 
     string keyword;
     cout << "Masukkan ID Kereta yang dicari: ";
@@ -156,11 +159,9 @@ void cariJalurPerpindahan() {
 }
 
 void hapusJalur() {
+    tampilkanSemuaJalur();
+    if (jumlahJalur == 0) return;
     cout << "\n=== HAPUS JALUR ===\n";
-    if (jumlahJalur == 0) {
-        cout << "Data kosong. Tidak ada jalur yang bisa dihapus.\n";
-        return;
-    }
 
     string keyword;
     cout << "Masukkan ID Kereta dari jalur yang ingin dihapus: ";
@@ -221,6 +222,23 @@ void loadJalur() {
         jumlahJalur++;
     }
     file.close();
+}
+
+void hapusJalurByNamaStasiun(string nama) {
+    int i = 0;
+    while (i < jumlahJalur) {
+        if (daftarJalur[i].stasiunTransit == nama ||
+            daftarJalur[i].jalurAsal == nama ||
+            daftarJalur[i].jalurTujuan == nama) {
+            for (int j = i; j < jumlahJalur - 1; j++) {
+                daftarJalur[j] = daftarJalur[j + 1];
+            }
+            jumlahJalur--;
+        } else {
+            i++;
+        }
+    }
+    saveJalur();
 }
 
 void menuPerpindahanJalur() {

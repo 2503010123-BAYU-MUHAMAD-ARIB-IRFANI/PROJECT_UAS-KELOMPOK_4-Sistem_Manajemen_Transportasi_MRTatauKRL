@@ -13,7 +13,14 @@ Node* headStasiun = NULL;
 
 bool cekStasiunAda(string nama);
 string getWilayahStasiun(string nama);
+Node* getNodeStasiun(string nama);
 void saveStasiun();
+
+// Forward declarations for cascade delete
+void hapusRuteByStasiun(Node* stasiun);
+void hapusPenumpangByStasiun(Node* stasiun);
+void hapusJadwalByNamaStasiun(string nama);
+void hapusJalurByNamaStasiun(string nama);
 
 void tambahStasiun() {
     string nama, wilayah;
@@ -69,8 +76,8 @@ void tampilkanStasiun() {
 }
 
 void cariStasiun() {
+    tampilkanStasiun();
     if (headStasiun == NULL) {
-        cout << "Data kosong!\n";
         return;
     }
     string cari;
@@ -89,8 +96,8 @@ void cariStasiun() {
 }
 
 void hapusStasiun() {
+    tampilkanStasiun();
     if (headStasiun == NULL) {
-        cout << "Data kosong!\n";
         return;
     }
     string nama;
@@ -107,6 +114,12 @@ void hapusStasiun() {
         cout << "Stasiun tidak ditemukan!\n";
         return;
     }
+    // Cascade delete: hapus semua data yang terkait dengan stasiun ini
+    hapusRuteByStasiun(temp);
+    hapusPenumpangByStasiun(temp);
+    hapusJadwalByNamaStasiun(temp->namaStasiun);
+    hapusJalurByNamaStasiun(temp->namaStasiun);
+
     if (prev == NULL) {
         headStasiun = headStasiun->next;
     } else {
@@ -114,7 +127,7 @@ void hapusStasiun() {
     }
     delete temp;
     saveStasiun();
-    cout << "Stasiun berhasil dihapus!\n";
+    cout << "Stasiun berhasil dihapus! Data terkait juga ikut terhapus.\n";
 }
 
 bool cekStasiunAda(string nama) {
@@ -137,6 +150,15 @@ string getWilayahStasiun(string nama) {
         temp = temp->next;
     }
     return "";
+}
+
+Node* getNodeStasiun(string nama) {
+    Node* temp = headStasiun;
+    while (temp != NULL) {
+        if (temp->namaStasiun == nama) return temp;
+        temp = temp->next;
+    }
+    return NULL;
 }
 
 void saveStasiun() {

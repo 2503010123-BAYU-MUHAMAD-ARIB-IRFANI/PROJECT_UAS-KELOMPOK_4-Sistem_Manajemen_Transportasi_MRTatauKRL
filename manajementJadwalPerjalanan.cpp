@@ -15,7 +15,8 @@ Jadwal queueJadwal[MAX];
 int front = -1, rear = -1;
 
 bool cekStasiunAda(string nama);
-void tambahRuteOtomatis(string asal, string tujuan);
+Node* getNodeStasiun(string nama);
+void tambahRuteOtomatis(Node* asal, Node* tujuan);
 void saveJadwal();
 
 bool isEmpty() {
@@ -87,7 +88,11 @@ void tambahJadwal() {
     rear++;
     queueJadwal[rear] = baru;
 
-    tambahRuteOtomatis(baru.asal, baru.tujuan);
+    {
+        Node* asalNode = getNodeStasiun(baru.asal);
+        Node* tujuanNode = getNodeStasiun(baru.tujuan);
+        if (asalNode && tujuanNode) tambahRuteOtomatis(asalNode, tujuanNode);
+    }
     saveJadwal();
 
     cout << "Jadwal berhasil ditambahkan ke queue. (Status: Scheduled)\n";
@@ -109,10 +114,8 @@ void tampilkanJadwal() {
 }
 
 void cariJadwal() {
-    if (isEmpty()) {
-        cout << "Queue kosong.\n";
-        return;
-    }
+    tampilkanJadwal();
+    if (isEmpty()) return;
     string tujuanCari;
     bool ditemukan = false;
     cin.ignore();
@@ -174,10 +177,8 @@ void ubahStatusJadwal() {
 }
 
 void hapusJadwal() {
-    if (isEmpty()) {
-        cout << "Queue kosong.\n";
-        return;
-    }
+    tampilkanJadwal();
+    if (isEmpty()) return;
     cout << "\nJadwal terdepan dihapus:\n";
     cout << "Asal   : " << queueJadwal[front].asal << "\n";
     cout << "Tujuan : " << queueJadwal[front].tujuan << "\n";
@@ -224,6 +225,21 @@ void loadJadwal() {
         queueJadwal[rear] = j;
     }
     file.close();
+}
+
+void hapusJadwalByNamaStasiun(string nama) {
+    if (isEmpty()) return;
+    int newFront = -1, newRear = -1;
+    for (int i = front; i <= rear; i++) {
+        if (queueJadwal[i].asal != nama && queueJadwal[i].tujuan != nama) {
+            if (newFront == -1) newFront = 0;
+            newRear++;
+            queueJadwal[newRear] = queueJadwal[i];
+        }
+    }
+    front = newFront;
+    rear = newRear;
+    saveJadwal();
 }
 
 void menuJadwalPerjalanan() {
